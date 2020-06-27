@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "880503201924",
+    "firebase_url": "https://localshare-28888.firebaseio.com",
+    "project_id": "localshare-28888",
+    "storage_bucket": "localshare-28888.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:880503201924:android:796e22721e09d89cf662d1",
+        "android_client_info": {
+          "package_name": "com.deledzis.localshare"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "880503201924-8g4sdlacrq6fem8ptssqll088f0s578n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.deledzis.localshare",
+            "certificate_hash": "673ea3d197c8cb498fad99fce8f7bc6df6b96fec"
+          }
+        },
+        {
+          "client_id": "880503201924-aietk622iduol3v8cgbr98p2chs3c0mo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDw5JyM_NC8y5RBWjyPyppIXM87n7xgr1o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "880503201924-aietk622iduol3v8cgbr98p2chs3c0mo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
