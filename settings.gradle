@@ -1,2 +1,8 @@
+include ':common'
+include ':infrastructure'
+include ':presentation'
+include ':domain'
+include ':data'
+include ':remote'
 include ':app'
-rootProject.name = "LocalShare"
+rootProject.name = "LocalShareUIPractice"

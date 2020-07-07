@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">@color/gray_700</color>
+    <color name="primary_dark">@color/gray_800</color>
+    <color name="accent">@color/white_blue_20</color>
+
+    <color name="text_60">@color/gray_450</color>
+    <color name="text_00">@color/gray_850</color>
+    <color name="text">@color/gray_100</color>
+    <color name="text_button">@color/white_100</color>
+    <color name="text_action">@color/green_100</color>
+    <color name="text_error">@color/red_error</color>
+    <color name="text_hint">@color/gray_400</color>
+    <color name="background">@color/primary_dark</color>
+
+    <color name="transparent">#00FFFFFF</color>
+
+    <color name="white_100">#FFFFFFFF</color>
+    <color name="white_80">#CCFFFFFF</color>
+    <color name="white_60">#99FFFFFF</color>
+    <color name="white_40">#66FFFFFF</color>
+
+    <color name="gray_020">#F9F9F9</color>
+    <color name="gray_040">#F2F3F5</color>
+    <color name="gray_050">#EBEDF0</color>
+    <color name="gray_100">#E1E3E6</color>
+    <color name="gray_200">#C4C8CC</color>
+    <color name="gray_300">#AAAEB3</color>
+    <color name="gray_400">#909499</color>
+    <color name="gray_450">#7F8285</color>
+    <color name="gray_500">#76787A</color>
+    <color name="gray_600">#5D5F61</color>
+    <color name="gray_700">#30444E</color>
+    <color name="gray_750">#363738</color>
+    <color name="gray_800">#22343C</color>
+    <color name="gray_850">#232324</color>
+    <color name="gray_900">#19191A</color>
+    <color name="gray_950">#141414</color>
+    <color name="gray_1000">#0A0A0A</color>
+
+    <color name="azure_300">#3F8AE0</color>
+    <color name="azure_350">#2975CC</color>
+    <color name="azure_a100">#2787F5</color>
+    <color name="azure_a400">#4986CC</color>
+
+    <color name="blue_200">#5C9CE6</color>
+    <color name="blue_300">#528BCC</color>
+    <color name="blue_400">#5181B8</color>
+    <color name="blue_600">#45678F</color>
+    <color name="blue_a300">#4772A6</color>
+    <color name="blue_a400">#346CAD</color>
+    <color name="blue_a500">#3C6A9E</color>
+    <color name="blue_a800">#28436E</color>
+    <color name="blue_fb">#4367A3</color>
+    <color name="white_blue_20">#CCE4FF</color>
+    <color name="white_blue_32">#ADD3FF</color>
+    <color name="black_blue_200">#001C3D</color>
+    <color name="black_blue_300">#556D88</color>
+    <color name="black_blue_24">#909CAA</color>
+    <color name="black_blue_4">#CAD6E0</color>
+
+    <color name="charcoal">#384452</color>
+    <color name="violet">#792EC0</color>
+    <color name="violet_dark">#1F1B2C</color>
+    <color name="violet_light">#A393F5</color>
+    <color name="violet_muted">#4B4D61</color>
+    <color name="sky">#71AAEB</color>
+    <color name="orange">#FFA000</color>
+    <color name="orange_fire">#F05C44</color>
+    <color name="pink">#E6457A</color>
+    <color name="pink_light">#FAEBEB</color>
+    <color name="red">#FF575F</color>
+    <color name="red_muted">#FF464F</color>
+    <color name="red_dark">#522E2E</color>
+    <color name="red_error">#EB4250</color>
+    <color name="red_light">#FF5C5C</color>
+    <color name="red_nice">#FF3347</color>
+    <color name="yellow">#FFC107</color>
+    <color name="yellow_light">#FFD54F</color>
+    <color name="yellow_sunflower">#FECE00</color>
+    <color name="turquoise">#63B9BA</color>
+    <color name="green_200">#286053</color>
+    <color name="green_180">#477A6E</color>
+    <color name="green_100">#4BB34B</color>
+    <color name="green_60">#40DF9F</color>
+    <color name="green_50">#3DD598</color>
+    <color name="green_10">#92DFC0</color>
+    <color name="emerald">#4CD964</color>
+    <color name="light_gray">#A9B0B8</color>
+</resources>

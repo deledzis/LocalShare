@@ -1,0 +1,119 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="actionMenuTextColor">@color/text_00</item>
+        <item name="actionMenuTextAppearance">@style/ActionMenuTextAppearance</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="colorControlActivated">@color/text</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowBackground">@color/primary_dark</item>
+    </style>
+
+    <style name="ActionMenuTextAppearance">
+        <item name="android:textSize">@dimen/size_16sp</item>
+        <item name="android:textColor">@color/white_100</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="TextView" parent="Widget.AppCompat.TextView" />
+
+    <style name="TextView.Header1">
+        <item name="android:layout_marginStart">@dimen/size_32dp</item>
+        <item name="android:layout_marginTop">@dimen/size_64dp</item>
+        <item name="android:layout_marginEnd">@dimen/size_32dp</item>
+        <item name="android:fontFamily">@font/sf_bold</item>
+        <item name="android:textColor">@color/text</item>
+        <item name="android:textSize">@dimen/size_42sp</item>
+    </style>
+
+    <style name="TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox.Dense">
+        <item name="boxStrokeColor">@color/color_text_field_activation_stroke</item>
+        <item name="boxStrokeWidth">@dimen/size_2dp</item>
+        <item name="hintTextAppearance">@style/HintTextAppearance</item>
+        <item name="hintAnimationEnabled">true</item>
+        <item name="hintTextColor">@color/text_hint</item>
+        <item name="android:textColorHint">@color/text_hint</item>
+    </style>
+
+    <style name="EditText">
+        <item name="android:paddingTop">@dimen/size_28dp</item>
+        <item name="android:paddingStart">@dimen/size_0dp</item>
+        <item name="android:paddingEnd">@dimen/size_16dp</item>
+        <item name="android:paddingBottom">@dimen/size_4dp</item>
+        <item name="android:background">@color/transparent</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textAppearance">@style/TextFieldTextAppearance</item>
+        <item name="android:textColor">@color/color_text_field_input</item>
+    </style>
+
+    <style name="ErrorTextAppearance">
+        <item name="android:textSize">@dimen/size_14sp</item>
+        <item name="android:fontFamily">@font/sf_regular</item>
+    </style>
+
+    <style name="HintTextAppearance">
+        <item name="android:textSize">@dimen/size_18sp</item>
+        <item name="android:fontFamily">@font/sf_regular</item>
+    </style>
+
+    <style name="TextFieldTextAppearance">
+        <item name="android:textSize">@dimen/size_18sp</item>
+        <item name="android:fontFamily">@font/sf_regular</item>
+    </style>
+
+    <style name="ButtonPrimaryTextAppearance">
+        <item name="android:textSize">@dimen/size_16sp</item>
+        <item name="android:fontFamily">@font/sf_bold</item>
+    </style>
+
+    <style name="ButtonMediumTextAppearance">
+        <item name="android:textSize">@dimen/size_14sp</item>
+        <item name="android:fontFamily">@font/sf_medium</item>
+    </style>
+
+    <style name="Button" parent="Widget.MaterialComponents.Button">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/text_button</item>
+        <item name="android:textAppearance">@style/ButtonPrimaryTextAppearance</item>
+        <item name="iconGravity">textEnd</item>
+    </style>
+
+    <style name="Button.Primary" parent="Button">
+        <item name="android:paddingTop">@dimen/size_14dp</item>
+        <item name="android:paddingBottom">@dimen/size_14dp</item>
+        <item name="backgroundTint">@color/green_60</item>
+        <item name="rippleColor">@color/green_10</item>
+        <item name="cornerRadius">@dimen/size_12dp</item>
+        <item name="elevation">@dimen/size_8dp</item>
+    </style>
+
+    <style name="Button.Secondary" parent="Button">
+        <item name="android:paddingTop">@dimen/size_14dp</item>
+        <item name="android:paddingBottom">@dimen/size_14dp</item>
+        <item name="android:textColor">@color/green_50</item>
+        <item name="backgroundTint">@color/green_200</item>
+        <item name="iconTint">@color/green_50</item>
+        <item name="rippleColor">@color/green_180</item>
+        <item name="cornerRadius">@dimen/size_12dp</item>
+        <item name="elevation">@dimen/size_8dp</item>
+    </style>
+
+    <style name="Button.Text" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/text_hint</item>
+        <item name="android:textAppearance">@style/ButtonMediumTextAppearance</item>
+        <item name="iconGravity">textEnd</item>
+        <item name="android:paddingTop">@dimen/size_0dp</item>
+        <item name="android:paddingBottom">@dimen/size_0dp</item>
+        <item name="rippleColor">@color/primary</item>
+        <item name="cornerRadius">@dimen/size_8dp</item>
+        <item name="elevation">@dimen/size_0dp</item>
+    </style>
+
+</resources>
