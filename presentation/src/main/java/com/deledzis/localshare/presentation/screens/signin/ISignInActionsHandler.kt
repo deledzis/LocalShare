@@ -1,5 +1,7 @@
 package com.deledzis.localshare.presentation.screens.signin
 
-interface IRegisterHandler {
+interface ISignInActionsHandler {
+    fun handleForgetPasswordClicked()
+
     fun handleRegisterClicked()
 }

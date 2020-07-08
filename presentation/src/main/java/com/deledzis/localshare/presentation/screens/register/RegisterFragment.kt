@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.deledzis.localshare.infrastructure.extensions.injectViewModel
 import com.deledzis.localshare.presentation.R
@@ -13,13 +14,13 @@ import com.deledzis.localshare.presentation.databinding.FragmentRegisterBinding
 import com.deledzis.localshare.presentation.viewmodel.register.RegisterViewModel
 import javax.inject.Inject
 
-class RegisterFragment : BaseFragment<RegisterViewModel>(), IBackHandler {
+class RegisterFragment : BaseFragment<RegisterViewModel>(), IRegisterActionsHandler {
 
     private lateinit var dataBinding: FragmentRegisterBinding
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    lateinit var registerViewModel: RegisterViewModel
+    private lateinit var registerViewModel: RegisterViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +47,19 @@ class RegisterFragment : BaseFragment<RegisterViewModel>(), IBackHandler {
 
     override fun handleBackClicked() {
         activity.onBackPressed()
+    }
+
+    override fun bindObservers() {
+        registerViewModel.user.observe(this, Observer {
+            displayInfoToast(
+                message = "Добро пожаловать, ${it.firstName} ${it.lastName}"
+            )
+        })
+        registerViewModel.error.observe(this, Observer {
+            if (!it.isNullOrBlank()) {
+                displayErrorToast(message = it)
+            }
+        })
     }
 
     companion object {

@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.deledzis.localshare.presentation.di.key.ViewModelKey
 import com.deledzis.localshare.presentation.viewmodel.ViewModelFactory
+import com.deledzis.localshare.presentation.viewmodel.forgetpassword.ForgetPasswordViewModel
 import com.deledzis.localshare.presentation.viewmodel.register.RegisterViewModel
 import com.deledzis.localshare.presentation.viewmodel.signin.SignInViewModel
 import dagger.Binds
@@ -25,5 +26,10 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(SignInViewModel::class)
     internal abstract fun signInViewModel(viewModel: SignInViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ForgetPasswordViewModel::class)
+    internal abstract fun forgetPasswordViewModel(viewModel: ForgetPasswordViewModel): ViewModel
 
 }

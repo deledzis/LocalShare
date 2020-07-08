@@ -19,6 +19,9 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
     @Inject
     lateinit var viewModel: MainActivityViewModel
 
+    @Inject
+    lateinit var signInFragment: SignInFragment
+
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
 
@@ -36,7 +39,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
 
     private fun toSignIn() {
         setFragment(
-            SignInFragment.newInstance(),
+            signInFragment,
             SIGN_IN_FRAGMENT_TAG
         )
     }

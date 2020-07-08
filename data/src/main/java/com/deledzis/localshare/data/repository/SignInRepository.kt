@@ -15,6 +15,9 @@ class SignInRepository @Inject constructor(
     private val authMapper: AuthMapper,
     private val userMapper: UserMapper
 ) : BaseRepository(apiRemote = apiRemote, networkManager = networkManager), ISignInRepository {
+
+
+
     override suspend fun auth(email: String, password: String): Auth? {
         val entity = safeApiCall(
             call = { apiRemote.auth(email = email, password = password) },

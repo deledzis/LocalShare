@@ -86,9 +86,15 @@ dependencies {
     api "com.google.dagger:dagger-android-support:$dagger_version"
     kapt "com.google.dagger:dagger-android-processor:$dagger_version"
 
+    /* Logging dependencies */
+    implementation "com.jakewharton.timber:timber:$timber_version"
+
     /* Testing dependencies */
     testImplementation "junit:junit:$junit_version"
-    androidTestImplementation "androidx.test.ext:junit:$androidx_junit_version"
+
+    androidTestImplementation ("androidx.test.ext:junit:$androidx_junit_version") {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
 
 }

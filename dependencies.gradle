@@ -9,7 +9,7 @@ ext {
 
     // Android
     android_build_tools_version = '29.0.3'
-    android_min_sdk_version = 15
+    android_min_sdk_version = 21
     android_target_sdk_version = 29
     android_compile_sdk_version = 29
     android_annotations_version = '1.1.0'

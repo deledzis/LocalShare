@@ -9,7 +9,9 @@ class LocationPasswordMapper @Inject constructor() : Mapper<LocationPasswordEnti
         return LocationPassword(
             id = type.id,
             password = type.password,
-            description = type.description
+            description = type.description,
+            active = type.active,
+            ownerId = type.ownerId
         )
     }
 
@@ -17,7 +19,9 @@ class LocationPasswordMapper @Inject constructor() : Mapper<LocationPasswordEnti
         return LocationPasswordEntity(
             id = type.id,
             password = type.password,
-            description = type.description
+            description = type.description,
+            active = type.active,
+            ownerId = type.ownerId
         )
     }
 }

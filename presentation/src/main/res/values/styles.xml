@@ -31,6 +31,27 @@
         <item name="android:textSize">@dimen/size_42sp</item>
     </style>
 
+    <style name="TextView.Header2">
+        <item name="android:layout_marginStart">@dimen/size_32dp</item>
+        <item name="android:layout_marginTop">@dimen/size_32dp</item>
+        <item name="android:layout_marginEnd">@dimen/size_32dp</item>
+        <item name="android:fontFamily">@font/sf_bold</item>
+        <item name="android:textColor">@color/text</item>
+        <item name="android:textSize">@dimen/size_24sp</item>
+    </style>
+
+    <style name="TextView.ErrorLabel">
+        <item name="android:fontFamily">@font/sf_light</item>
+        <item name="android:textColor">@color/text_error</item>
+        <item name="android:textSize">@dimen/size_14sp</item>
+    </style>
+
+    <style name="TextView.ToastInfo">
+        <item name="android:fontFamily">@font/sf_medium</item>
+        <item name="android:textColor">@color/text</item>
+        <item name="android:textSize">@dimen/size_18sp</item>
+    </style>
+
     <style name="TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox.Dense">
         <item name="boxStrokeColor">@color/color_text_field_activation_stroke</item>
         <item name="boxStrokeWidth">@dimen/size_2dp</item>
@@ -87,7 +108,7 @@
     <style name="Button.Primary" parent="Button">
         <item name="android:paddingTop">@dimen/size_14dp</item>
         <item name="android:paddingBottom">@dimen/size_14dp</item>
-        <item name="backgroundTint">@color/green_60</item>
+        <item name="backgroundTint">@color/color_button_primary_background</item>
         <item name="rippleColor">@color/green_10</item>
         <item name="cornerRadius">@dimen/size_12dp</item>
         <item name="elevation">@dimen/size_8dp</item>
@@ -97,7 +118,7 @@
         <item name="android:paddingTop">@dimen/size_14dp</item>
         <item name="android:paddingBottom">@dimen/size_14dp</item>
         <item name="android:textColor">@color/green_50</item>
-        <item name="backgroundTint">@color/green_200</item>
+        <item name="backgroundTint">@color/color_button_secondary_background</item>
         <item name="iconTint">@color/green_50</item>
         <item name="rippleColor">@color/green_180</item>
         <item name="cornerRadius">@dimen/size_12dp</item>

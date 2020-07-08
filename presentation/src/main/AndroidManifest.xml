@@ -1,4 +1,1 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.deledzis.localshare.presentation">
-
-</manifest>
+<manifest package="com.deledzis.localshare.presentation" />

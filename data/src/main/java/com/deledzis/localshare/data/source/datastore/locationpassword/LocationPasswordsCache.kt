@@ -14,11 +14,6 @@ interface LocationPasswordsCache {
     suspend fun getLocationPasswords(userId: Int): List<LocationPasswordEntity>
 
     /**
-     * Add new [LocationPasswordEntity] instance to the cache.
-     */
-    suspend fun addLocationPassword(password: String, description: String): Int
-
-    /**
      * Update an existing instance of [LocationPasswordEntity] in cache.
      */
     suspend fun updateLocationPassword(locationPasswordEntity: LocationPasswordEntity): Int
@@ -36,7 +31,7 @@ interface LocationPasswordsCache {
     /**
      * Save a given list of [LocationPasswordEntity] to the cache
      */
-    suspend fun saveLocationPasswords(searchResults: List<LocationPasswordEntity>)
+    suspend fun saveLocationPasswords(locationPasswords: List<LocationPasswordEntity>)
 
     /**
      * Checks if an element [LocationPasswordEntity] exists in the cache.

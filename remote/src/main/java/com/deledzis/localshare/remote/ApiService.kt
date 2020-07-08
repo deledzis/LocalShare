@@ -34,7 +34,7 @@ interface ApiService {
     /**
      * Регистрация
      **/
-    @POST("remember_password")
+    @POST("register")
     suspend fun register(
         @Body request: RegisterRequest
     ): Response<AuthEntity>

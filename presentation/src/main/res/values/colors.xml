@@ -11,6 +11,11 @@
     <color name="text_action">@color/green_100</color>
     <color name="text_error">@color/red_error</color>
     <color name="text_hint">@color/gray_400</color>
+
+    <color name="toast_info">#319768</color>
+    <color name="toast_warning">#AB8A10</color>
+    <color name="toast_error">#AA3A3D</color>
+
     <color name="background">@color/primary_dark</color>
 
     <color name="transparent">#00FFFFFF</color>

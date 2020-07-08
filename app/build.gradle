@@ -6,7 +6,7 @@ apply plugin: 'kotlin-kapt'
 
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
-apply plugin: 'com.google.firebase.firebase-perf'
+//apply plugin: 'com.google.firebase.firebase-perf'
 
 apply plugin: 'androidx.navigation.safeargs'
 
@@ -110,8 +110,8 @@ android {
         jvmTarget = "1.8"
     }
 
-    dataBinding {
-        enabled = true
+    buildFeatures {
+        dataBinding = true
     }
 
     packagingOptions {
@@ -139,6 +139,7 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
     api project(':data')
+    api project(':cache')
     api project(':remote')
     api project(':presentation')
 
@@ -161,8 +162,14 @@ dependencies {
     api "com.google.dagger:dagger-android-support:$dagger_version"
     kapt "com.google.dagger:dagger-android-processor:$dagger_version"
 
+    /* Logging dependencies */
+    implementation "com.jakewharton.timber:timber:$timber_version"
+
     /* Testing dependencies */
     testImplementation "junit:junit:$junit_version"
-    androidTestImplementation "androidx.test.ext:junit:$androidx_junit_version"
+
+    androidTestImplementation ("androidx.test.ext:junit:$androidx_junit_version") {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
 }

@@ -22,7 +22,6 @@ open class BaseRepository @Inject constructor(
                 if (result.exception is TestTimeBetweenAttemptsNotGoneException) {
                     throw TestTimeBetweenAttemptsNotGoneException()
                 }
-                throw result.exception
             }
         }
         return data

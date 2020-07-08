@@ -8,5 +8,9 @@ data class LocationPasswordEntity(
     @SerializedName("password")
     val password: String,
     @SerializedName("description")
-    val description: String
+    val description: String,
+    @SerializedName("active")
+    val active: Boolean,
+    @SerializedName("owner_id")
+    val ownerId: Int
 )

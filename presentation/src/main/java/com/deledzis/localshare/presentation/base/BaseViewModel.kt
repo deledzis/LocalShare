@@ -9,9 +9,10 @@ import kotlinx.coroutines.cancel
 import kotlin.coroutines.CoroutineContext
 
 abstract class BaseViewModel : ViewModel() {
-    protected val parentJob = Job()
-    protected val coroutineContext: CoroutineContext
+    private val parentJob = Job()
+    private val coroutineContext: CoroutineContext
         get() = parentJob + Dispatchers.Default
+
     protected val scope = CoroutineScope(coroutineContext)
 
     val loading = MutableLiveData(false)

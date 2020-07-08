@@ -6,6 +6,7 @@
     <!-- Headers -->
     <string name="header_welcome">Добро пожаловать</string>
     <string name="header_register">Регистрация</string>
+    <string name="header_forget_password">Забыли пароль?</string>
     <string name="header_my_passwords">Мои пароли</string>
 
     <!-- Buttons -->
@@ -13,6 +14,7 @@
     <string name="btn_register">Зарегистрироваться</string>
     <string name="btn_forget_password">Забыли пароль?</string>
     <string name="btn_add_password">Создать пароль</string>
+    <string name="btn_restore_password">Восстановить пароль</string>
 
     <!-- Placeholders -->
     <string name="pl_empty_passwords">Вы пока не создали ни одного пароля</string>

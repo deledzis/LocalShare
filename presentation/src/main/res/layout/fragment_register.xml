@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -10,7 +11,7 @@
 
         <variable
             name="backHandler"
-            type="com.deledzis.localshare.presentation.screens.register.IBackHandler" />
+            type="com.deledzis.localshare.presentation.screens.register.IRegisterActionsHandler" />
 
         <import type="android.text.TextUtils" />
 
@@ -73,6 +74,20 @@
 
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/tv_email_error"
+                style="@style/TextView.ErrorLabel"
+                android:layout_width="@dimen/size_0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size_4dp"
+                android:layout_marginEnd="@dimen/size_32dp"
+                android:maxLines="1"
+                android:text="@{viewModel.emailError}"
+                app:layout_constraintEnd_toEndOf="@id/ll_name_field"
+                app:layout_constraintStart_toStartOf="@id/ll_name_field"
+                app:layout_constraintTop_toBottomOf="@id/ll_name_field"
+                tools:text="Введите email" />
+
             <LinearLayout
                 android:id="@+id/ll_password_field"
                 android:layout_width="@dimen/size_0dp"
@@ -111,6 +126,20 @@
 
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/tv_password_error"
+                style="@style/TextView.ErrorLabel"
+                android:layout_width="@dimen/size_0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size_4dp"
+                android:layout_marginEnd="@dimen/size_32dp"
+                android:maxLines="1"
+                android:text="@{viewModel.passwordError}"
+                app:layout_constraintEnd_toEndOf="@id/ll_password_field"
+                app:layout_constraintStart_toStartOf="@id/ll_password_field"
+                app:layout_constraintTop_toBottomOf="@id/ll_password_field"
+                tools:text="Введите пароль" />
+
             <LinearLayout
                 android:layout_width="@dimen/size_0dp"
                 android:layout_height="wrap_content"
@@ -126,18 +155,36 @@
                     style="@style/Button.Secondary"
                     android:layout_width="58dp"
                     android:layout_height="wrap_content"
+                    android:clickable="@{!viewModel.loading}"
+                    android:enabled="@{!viewModel.loading}"
                     android:onClick="@{() -> backHandler.handleBackClicked()}"
                     app:icon="@drawable/ic_arrow_left" />
 
-                <com.google.android.material.button.MaterialButton
+                <FrameLayout
                     android:id="@+id/btn_to_register"
-                    style="@style/Button.Primary"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/size_12dp"
-                    android:onClick="@{() -> viewModel.register()}"
-                    android:text="@string/btn_register"
-                    app:icon="@drawable/ic_arrow_right" />
+                    android:layout_marginStart="@dimen/size_12dp">
+
+                    <com.google.android.material.button.MaterialButton
+                        style="@style/Button.Primary"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="@{!viewModel.loading}"
+                        android:enabled="@{!viewModel.loading}"
+                        android:onClick="@{() -> viewModel.register()}"
+                        android:text="@string/btn_register"
+                        app:icon="@{viewModel.loading ? null : @drawable/ic_arrow_right}" />
+
+                    <ProgressBar
+                        android:layout_width="@dimen/size_32dp"
+                        android:layout_height="@dimen/size_32dp"
+                        android:layout_gravity="center_vertical|end"
+                        android:layout_marginEnd="@dimen/size_8dp"
+                        android:indeterminateTint="@color/white_100"
+                        app:visibility="@{viewModel.loading}" />
+
+                </FrameLayout>
 
             </LinearLayout>
 

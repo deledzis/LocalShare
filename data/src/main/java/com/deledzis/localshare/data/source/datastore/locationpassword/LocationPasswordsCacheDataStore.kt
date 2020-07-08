@@ -19,11 +19,7 @@ open class LocationPasswordsCacheDataStore @Inject constructor(
     }
 
     override suspend fun addLocationPassword(password: String, description: String): Boolean {
-        val insertedRows = locationPasswordsCache.addLocationPassword(
-            password = password,
-            description = description
-        )
-        return insertedRows > 0
+        throw UnsupportedOperationException()
     }
 
     override suspend fun updateLocationPassword(locationPassword: LocationPasswordEntity): Boolean {
