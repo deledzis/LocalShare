@@ -11,10 +11,9 @@ import com.deledzis.localshare.infrastructure.extensions.injectViewModel
 import com.deledzis.localshare.presentation.R
 import com.deledzis.localshare.presentation.base.BaseFragment
 import com.deledzis.localshare.presentation.databinding.FragmentForgetPasswordBinding
-import com.deledzis.localshare.presentation.viewmodel.forgetpassword.ForgetPasswordViewModel
 import javax.inject.Inject
 
-class ForgetPasswordFragment : BaseFragment<ForgetPasswordViewModel>(),
+class ForgetPasswordFragment @Inject constructor() : BaseFragment<ForgetPasswordViewModel>(),
     IForgetPasswordActionsHandler {
 
     private lateinit var dataBinding: FragmentForgetPasswordBinding
@@ -63,10 +62,5 @@ class ForgetPasswordFragment : BaseFragment<ForgetPasswordViewModel>(),
                 displayErrorToast(message = it)
             }
         })
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance() = ForgetPasswordFragment()
     }
 }

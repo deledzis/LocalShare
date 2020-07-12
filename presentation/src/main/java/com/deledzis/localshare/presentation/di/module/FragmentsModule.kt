@@ -1,39 +1,28 @@
 package com.deledzis.localshare.presentation.di.module
 
-import com.deledzis.localshare.presentation.screens.forgetpassword.ForgetPasswordFragment
-import com.deledzis.localshare.presentation.screens.register.RegisterFragment
-import com.deledzis.localshare.presentation.screens.signin.SignInFragment
+import com.deledzis.localshare.presentation.screens.locationpasswords.ILocationPasswordActionsHandler
+import com.deledzis.localshare.presentation.screens.locationpasswords.LocationPasswordsFragment
 import dagger.Module
 import dagger.Provides
 
 @Module
 object FragmentsModule {
-    private var signInFragment: SignInFragment? = null
-    private var registerFragment: RegisterFragment? = null
-    private var forgetPasswordFragment: ForgetPasswordFragment? = null
+    private var locationPasswordsFragment: LocationPasswordsFragment? = null
 
     @Provides
-    fun signInFragment(): SignInFragment {
-        if (signInFragment == null) {
-            signInFragment = SignInFragment.newInstance()
+    fun provideLocationPasswordsFragment(): LocationPasswordsFragment {
+        if (locationPasswordsFragment == null) {
+            locationPasswordsFragment = LocationPasswordsFragment()
         }
-        return signInFragment!!
+        return locationPasswordsFragment!!
     }
 
     @Provides
-    fun registerFragment(): RegisterFragment {
-        if (registerFragment == null) {
-            registerFragment = RegisterFragment.newInstance()
+    fun provideLocationPasswordActionsHandler(): ILocationPasswordActionsHandler {
+        if (locationPasswordsFragment == null) {
+            locationPasswordsFragment = LocationPasswordsFragment()
         }
-        return registerFragment!!
-    }
-
-    @Provides
-    fun forgetPasswordFragment(): ForgetPasswordFragment {
-        if (forgetPasswordFragment == null) {
-            forgetPasswordFragment = ForgetPasswordFragment.newInstance()
-        }
-        return forgetPasswordFragment!!
+        return locationPasswordsFragment!!
     }
 
 }

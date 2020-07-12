@@ -2,21 +2,37 @@ package com.deledzis.localshare.presentation.base
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.cancel
+import com.deledzis.localshare.common.usecase.Error
+import com.deledzis.localshare.common.usecase.Response
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.ReceiveChannel
+import kotlinx.coroutines.channels.consumeEach
 import kotlin.coroutines.CoroutineContext
 
-abstract class BaseViewModel : ViewModel() {
-    private val parentJob = Job()
-    private val coroutineContext: CoroutineContext
-        get() = parentJob + Dispatchers.Default
+abstract class BaseViewModel : ViewModel(), CoroutineScope {
 
-    protected val scope = CoroutineScope(coroutineContext)
+    private val job = Job()
+    protected abstract val receiveChannel: ReceiveChannel<Response<*, Error>>
+
+    override val coroutineContext: CoroutineContext
+        get() = job + Dispatchers.Main
 
     val loading = MutableLiveData(false)
     val loadingError = MutableLiveData(false)
+
+    abstract suspend fun resolve(value: Response<*, Error>)
+
+    init {
+        processStream()
+    }
+
+    private fun processStream() {
+        launch {
+            receiveChannel.consumeEach {
+                resolve(it)
+            }
+        }
+    }
 
     protected open fun startLoading() {
         loading.postValue(true)
@@ -28,13 +44,10 @@ abstract class BaseViewModel : ViewModel() {
         loadingError.postValue(error)
     }
 
-    protected open fun cancelAllRequests() {
-        stopLoading()
-        coroutineContext.cancel()
-    }
-
     override fun onCleared() {
-        cancelAllRequests()
+        receiveChannel.cancel()
+        coroutineContext.cancel()
+        stopLoading()
         super.onCleared()
     }
 }

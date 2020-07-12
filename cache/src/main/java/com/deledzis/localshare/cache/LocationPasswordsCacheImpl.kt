@@ -3,8 +3,8 @@ package com.deledzis.localshare.cache
 import com.deledzis.localshare.cache.db.dao.LocationPasswordsDao
 import com.deledzis.localshare.cache.db.mapper.LocationPasswordEntityMapper
 import com.deledzis.localshare.cache.preferences.locationpasswordscache.LocationPasswordsLastCacheTime
-import com.deledzis.localshare.data.source.datastore.locationpassword.LocationPasswordsCache
-import com.deledzis.localshare.data.source.server.model.LocationPasswordEntity
+import com.deledzis.localshare.data.model.LocationPasswordEntity
+import com.deledzis.localshare.data.repository.locationpassword.LocationPasswordsCache
 import javax.inject.Inject
 
 /**
@@ -62,11 +62,11 @@ class LocationPasswordsCacheImpl @Inject constructor(
     /**
      * Checked whether there are instances of [LocationPasswordEntity] stored in the cache
      */
-    override suspend fun isCached(id: Int): Boolean {
-        val cachedLocationPassword = locationPasswordsDao.getLocationPassword(
-            id = id
+    override suspend fun isCached(userId: Int): Boolean {
+        val cachedLocationPassword = locationPasswordsDao.getLocationPasswordsByUserId(
+            userId = userId
         )
-        return cachedLocationPassword != null
+        return cachedLocationPassword.isNotEmpty()
     }
 
     /**

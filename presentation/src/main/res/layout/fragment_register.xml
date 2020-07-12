@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.deledzis.localshare.presentation.viewmodel.register.RegisterViewModel" />
+            type="com.deledzis.localshare.presentation.screens.register.RegisterViewModel" />
 
         <variable
             name="backHandler"
@@ -155,8 +155,6 @@
                     style="@style/Button.Secondary"
                     android:layout_width="58dp"
                     android:layout_height="wrap_content"
-                    android:clickable="@{!viewModel.loading}"
-                    android:enabled="@{!viewModel.loading}"
                     android:onClick="@{() -> backHandler.handleBackClicked()}"
                     app:icon="@drawable/ic_arrow_left" />
 
@@ -174,15 +172,28 @@
                         android:enabled="@{!viewModel.loading}"
                         android:onClick="@{() -> viewModel.register()}"
                         android:text="@string/btn_register"
-                        app:icon="@{viewModel.loading ? null : @drawable/ic_arrow_right}" />
+                        app:icon="@drawable/ic_arrow_right" />
 
-                    <ProgressBar
-                        android:layout_width="@dimen/size_32dp"
-                        android:layout_height="@dimen/size_32dp"
-                        android:layout_gravity="center_vertical|end"
-                        android:layout_marginEnd="@dimen/size_8dp"
-                        android:indeterminateTint="@color/white_100"
-                        app:visibility="@{viewModel.loading}" />
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/size_70dp"
+                        android:clickable="false"
+                        android:focusable="false"
+                        app:cardBackgroundColor="@color/transparent"
+                        app:cardCornerRadius="@dimen/size_24dp"
+                        app:cardElevation="@dimen/size_0dp"
+                        app:cardUseCompatPadding="false">
+
+                        <ProgressBar
+                            style="?android:attr/progressBarStyleHorizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
+                            android:indeterminate="true"
+                            android:indeterminateTint="@color/white_100"
+                            app:visibility="@{viewModel.loading}" />
+
+                    </androidx.cardview.widget.CardView>
 
                 </FrameLayout>
 

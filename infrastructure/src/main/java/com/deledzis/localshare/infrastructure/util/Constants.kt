@@ -4,5 +4,4 @@ package com.deledzis.localshare.infrastructure.util
 const val SIGN_IN_FRAGMENT_TAG = "Sign In Fragment"
 const val REGISTER_FRAGMENT_TAG = "Register Fragment"
 const val FORGET_PASSWORD_FRAGMENT_TAG = "Forget Password Fragment"
-
-const val APP_PREFERENCES = "prefs"
+const val LOCATION_PASSWORDS_FRAGMENT_TAG = "Location Passwords Fragment"

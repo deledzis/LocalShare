@@ -11,10 +11,9 @@ import com.deledzis.localshare.infrastructure.extensions.injectViewModel
 import com.deledzis.localshare.presentation.R
 import com.deledzis.localshare.presentation.base.BaseFragment
 import com.deledzis.localshare.presentation.databinding.FragmentRegisterBinding
-import com.deledzis.localshare.presentation.viewmodel.register.RegisterViewModel
 import javax.inject.Inject
 
-class RegisterFragment : BaseFragment<RegisterViewModel>(), IRegisterActionsHandler {
+class RegisterFragment @Inject constructor() : BaseFragment<RegisterViewModel>(), IRegisterActionsHandler {
 
     private lateinit var dataBinding: FragmentRegisterBinding
 
@@ -60,10 +59,5 @@ class RegisterFragment : BaseFragment<RegisterViewModel>(), IRegisterActionsHand
                 displayErrorToast(message = it)
             }
         })
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance() = RegisterFragment()
     }
 }

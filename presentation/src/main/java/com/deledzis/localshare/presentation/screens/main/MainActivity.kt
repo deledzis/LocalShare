@@ -7,14 +7,20 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import androidx.databinding.DataBindingUtil
+import com.deledzis.localshare.domain.model.BaseUserData
+import com.deledzis.localshare.infrastructure.util.LOCATION_PASSWORDS_FRAGMENT_TAG
 import com.deledzis.localshare.infrastructure.util.SIGN_IN_FRAGMENT_TAG
 import com.deledzis.localshare.presentation.R
 import com.deledzis.localshare.presentation.base.BaseActivity
+import com.deledzis.localshare.presentation.databinding.ActivityMainBinding
+import com.deledzis.localshare.presentation.screens.locationpasswords.LocationPasswordsFragment
 import com.deledzis.localshare.presentation.screens.signin.SignInFragment
-import com.deledzis.localshare.presentation.viewmodel.main.MainActivityViewModel
 import javax.inject.Inject
 
 class MainActivity : BaseActivity<MainActivityViewModel>() {
+
+    private lateinit var dataBinding: ActivityMainBinding
 
     @Inject
     lateinit var viewModel: MainActivityViewModel
@@ -22,25 +28,43 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
     @Inject
     lateinit var signInFragment: SignInFragment
 
+    @Inject
+    lateinit var locationPasswordsFragment: LocationPasswordsFragment
+
+    @Inject
+    lateinit var userData: BaseUserData
+
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
 
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_main)
+        dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        dataBinding.lifecycleOwner = this
 
         if (!isTaskRoot) {
             finish()
             return
         }
 
-        toSignIn()
+        if (userData.getUser() == null) {
+            toSignIn()
+        } else {
+            toHome()
+        }
     }
 
     private fun toSignIn() {
         setFragment(
             signInFragment,
             SIGN_IN_FRAGMENT_TAG
+        )
+    }
+
+    fun toHome() {
+        setFragment(
+            locationPasswordsFragment,
+            LOCATION_PASSWORDS_FRAGMENT_TAG
         )
     }
 

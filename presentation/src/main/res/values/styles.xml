@@ -109,6 +109,8 @@
         <item name="android:paddingTop">@dimen/size_14dp</item>
         <item name="android:paddingBottom">@dimen/size_14dp</item>
         <item name="backgroundTint">@color/color_button_primary_background</item>
+        <item name="android:textColor">@color/color_button_primary_text</item>
+        <item name="iconTint">@color/color_button_primary_text</item>
         <item name="rippleColor">@color/green_10</item>
         <item name="cornerRadius">@dimen/size_12dp</item>
         <item name="elevation">@dimen/size_8dp</item>

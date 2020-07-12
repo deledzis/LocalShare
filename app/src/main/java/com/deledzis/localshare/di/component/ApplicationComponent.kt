@@ -2,7 +2,6 @@ package com.deledzis.localshare.di.component
 
 import com.deledzis.localshare.LocalShareApp
 import com.deledzis.localshare.cache.di.DataCacheModule
-import com.deledzis.localshare.data.di.RepositoryModule
 import com.deledzis.localshare.di.module.ApplicationModule
 import com.deledzis.localshare.infrastructure.di.UtilsModule
 import com.deledzis.localshare.presentation.di.builder.MainActivityBuilder
@@ -22,7 +21,6 @@ import javax.inject.Singleton
         DataCacheModule::class,
         MainActivityBuilder::class,
         ViewModelModule::class,
-        RepositoryModule::class,
         AndroidInjectionModule::class
     ]
 )

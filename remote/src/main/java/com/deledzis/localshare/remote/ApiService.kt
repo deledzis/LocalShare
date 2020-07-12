@@ -1,11 +1,10 @@
 package com.deledzis.localshare.remote
 
 import com.deledzis.localshare.common.Constants
-import com.deledzis.localshare.data.source.server.model.AuthEntity
-import com.deledzis.localshare.data.source.server.model.LocationPasswordEntity
-import com.deledzis.localshare.data.source.server.model.UserEntity
+import com.deledzis.localshare.data.model.AuthEntity
+import com.deledzis.localshare.data.model.LocationPasswordEntity
+import com.deledzis.localshare.data.model.UserEntity
 import com.deledzis.localshare.remote.model.*
-import retrofit2.Response
 import retrofit2.http.*
 
 interface ApiService {
@@ -16,19 +15,19 @@ interface ApiService {
     @POST("auth")
     suspend fun auth(
         @Body request: AuthUserRequest
-    ): Response<AuthEntity>
+    ): AuthEntity
 
     // Проверить токен
     @POST("auth/verify")
     suspend fun verifyToken(
         @Body request: VerifyTokenRequest
-    ): Response<AuthEntity>
+    ): AuthEntity
 
     // Обновить токен
     @POST("auth/refresh")
     suspend fun refreshToken(
         @Body request: RefreshTokenRequest
-    ): Response<AuthEntity>
+    ): AuthEntity
 
 
     /**
@@ -37,7 +36,7 @@ interface ApiService {
     @POST("register")
     suspend fun register(
         @Body request: RegisterRequest
-    ): Response<AuthEntity>
+    ): AuthEntity
 
 
     /**
@@ -46,7 +45,7 @@ interface ApiService {
     @POST("remember_password")
     suspend fun recoverPassword(
         @Body request: RecoverRequest
-    ): Response<Boolean>
+    ): Boolean
 
 
     /**
@@ -55,7 +54,7 @@ interface ApiService {
     @GET("users/{id}")
     suspend fun getUser(
         @Path("id") id: Int
-    ): Response<UserEntity>
+    ): UserEntity
 
 
     /**
@@ -66,20 +65,20 @@ interface ApiService {
         @Query("take") take: Int = Constants.API_DEFAULT_TAKE,
         @Query("page") page: Int = 0,
         @Query("user") userId: Int
-    ): Response<List<LocationPasswordEntity>>
+    ): List<LocationPasswordEntity>
 
     @POST("passwords")
     suspend fun addLocationPassword(
         @Body request: AddLocationPasswordRequest
-    ): Response<Boolean>
+    ): Boolean
 
     @PUT("passwords")
     suspend fun updateLocationPassword(
         @Body request: UpdateLocationPasswordRequest
-    ): Response<Boolean>
+    ): Boolean
 
     @POST("passwords")
     suspend fun deleteLocationPassword(
         @Body request: DeleteLocationPasswordRequest
-    ): Response<Boolean>
+    ): Boolean
 }

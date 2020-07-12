@@ -2,9 +2,11 @@ package com.deledzis.localshare.remote.di
 
 import com.deledzis.localshare.common.Constants
 import com.deledzis.localshare.data.di.TokenInterceptor
-import com.deledzis.localshare.data.source.server.ApiRemote
-import com.deledzis.localshare.remote.ApiRemoteImpl
+import com.deledzis.localshare.data.repository.auth.AuthRemote
+import com.deledzis.localshare.data.repository.locationpassword.LocationPasswordsRemote
 import com.deledzis.localshare.remote.ApiService
+import com.deledzis.localshare.remote.AuthRemoteImpl
+import com.deledzis.localshare.remote.LocationPasswordsRemoteImpl
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -33,7 +35,7 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun getOkHttpClient(
+    fun provideOkHttpClient(
         httpLoggingInterceptor: HttpLoggingInterceptor,
         interceptor: Interceptor,
         tokenInterceptor: TokenInterceptor
@@ -50,7 +52,7 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun httpLoggingInterceptor(): HttpLoggingInterceptor {
+    fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
         val httpLoggingInterceptor = HttpLoggingInterceptor()
         httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
         return httpLoggingInterceptor
@@ -58,7 +60,7 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun requestHeadersInterceptor(): Interceptor = object : Interceptor {
+    fun provideRequestHeadersInterceptor(): Interceptor = object : Interceptor {
         override fun intercept(chain: Interceptor.Chain): Response {
             val original: Request = chain.request()
             val request: Request = original.newBuilder()
@@ -69,7 +71,7 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun getRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit {
+    fun provideRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(Constants.API_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(gson))
@@ -79,14 +81,20 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun getApiInterface(retrofit: Retrofit): ApiService {
+    fun provideApiInterface(retrofit: Retrofit): ApiService {
         return retrofit.create(ApiService::class.java)
     }
 
     @Singleton
     @Provides
-    fun getApiRemote(apiService: ApiService): ApiRemote {
-        return ApiRemoteImpl(apiService = apiService)
+    fun provideLocationPasswordsRemote(apiService: ApiService): LocationPasswordsRemote {
+        return LocationPasswordsRemoteImpl(apiService = apiService)
+    }
+
+    @Singleton
+    @Provides
+    fun provideAuthRemote(apiService: ApiService): AuthRemote {
+        return AuthRemoteImpl(apiService = apiService)
     }
 
     companion object {

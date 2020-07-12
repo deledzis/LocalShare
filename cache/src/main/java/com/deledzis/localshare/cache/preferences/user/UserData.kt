@@ -1,12 +1,16 @@
 package com.deledzis.localshare.cache.preferences.user
 
+import com.deledzis.localshare.cache.mapper.UserMapper
+import com.deledzis.localshare.domain.model.BaseUserData
+import com.deledzis.localshare.domain.model.User
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class UserData @Inject constructor(
-    private val userStore: UserStore
-) {
+    private val userStore: UserStore,
+    private val mapper: UserMapper
+) : BaseUserData() {
     var user: AuthenticatedUser? = AuthenticatedUser.restore(userStore = userStore)
         set(value) {
             field = value
@@ -16,4 +20,13 @@ class UserData @Inject constructor(
                 value.save(userStore = userStore)
             }
         }
+
+    override fun getUser(): User? {
+        return this.user?.let { mapper.mapFromEntity(it) }
+    }
+
+    override fun saveUser(user: User): Boolean {
+        this.user = mapper.mapToEntity(user)
+        return true
+    }
 }

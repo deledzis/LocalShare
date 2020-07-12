@@ -13,8 +13,6 @@ class UtilsModule {
     @Singleton
     @Provides
     fun provideNetworkManager(context: Context): BaseNetworkManager {
-        return NetworkManager(
-            context = context
-        )
+        return NetworkManager(context = context)
     }
 }

@@ -8,8 +8,12 @@ import com.deledzis.localshare.cache.db.Database
 import com.deledzis.localshare.cache.db.dao.LocationPasswordsDao
 import com.deledzis.localshare.cache.db.dao.UsersDao
 import com.deledzis.localshare.cache.db.mapper.LocationPasswordEntityMapper
+import com.deledzis.localshare.cache.mapper.UserMapper
 import com.deledzis.localshare.cache.preferences.locationpasswordscache.LocationPasswordsLastCacheTime
-import com.deledzis.localshare.data.source.datastore.locationpassword.LocationPasswordsCache
+import com.deledzis.localshare.cache.preferences.user.UserData
+import com.deledzis.localshare.cache.preferences.user.UserStore
+import com.deledzis.localshare.data.repository.locationpassword.LocationPasswordsCache
+import com.deledzis.localshare.domain.model.BaseUserData
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -78,6 +82,18 @@ class DataCacheModule {
             entityMapper = entityMapper,
             locationPasswordsLastCacheTime = locationPasswordsLastCacheTime,
             locationPasswordsDao = locationPasswordsDao
+        )
+    }
+
+    @Singleton
+    @Provides
+    fun provideUserStore(
+        userStore: UserStore,
+        mapper: UserMapper
+    ): BaseUserData {
+        return UserData(
+            userStore = userStore,
+            mapper = mapper
         )
     }
 }

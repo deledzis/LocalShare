@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.deledzis.localshare.domain.model.BaseUserData
 import com.deledzis.localshare.infrastructure.extensions.injectViewModel
 import com.deledzis.localshare.infrastructure.util.FORGET_PASSWORD_FRAGMENT_TAG
 import com.deledzis.localshare.infrastructure.util.REGISTER_FRAGMENT_TAG
@@ -15,10 +16,9 @@ import com.deledzis.localshare.presentation.base.BaseFragment
 import com.deledzis.localshare.presentation.databinding.FragmentSignInBinding
 import com.deledzis.localshare.presentation.screens.forgetpassword.ForgetPasswordFragment
 import com.deledzis.localshare.presentation.screens.register.RegisterFragment
-import com.deledzis.localshare.presentation.viewmodel.signin.SignInViewModel
 import javax.inject.Inject
 
-class SignInFragment : BaseFragment<SignInViewModel>(), ISignInActionsHandler {
+class SignInFragment @Inject constructor() : BaseFragment<SignInViewModel>(), ISignInActionsHandler {
 
     private lateinit var dataBinding: FragmentSignInBinding
 
@@ -31,6 +31,9 @@ class SignInFragment : BaseFragment<SignInViewModel>(), ISignInActionsHandler {
 
     @Inject
     lateinit var forgetPasswordFragment: ForgetPasswordFragment
+
+    @Inject
+    lateinit var userData: BaseUserData
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +59,7 @@ class SignInFragment : BaseFragment<SignInViewModel>(), ISignInActionsHandler {
     }
 
     override fun handleRegisterClicked() {
+        signInViewModel.handleFragmentChange()
         activity.addFragment(
             registerFragment,
             REGISTER_FRAGMENT_TAG
@@ -63,6 +67,7 @@ class SignInFragment : BaseFragment<SignInViewModel>(), ISignInActionsHandler {
     }
 
     override fun handleForgetPasswordClicked() {
+        signInViewModel.handleFragmentChange()
         activity.addFragment(
             forgetPasswordFragment,
             FORGET_PASSWORD_FRAGMENT_TAG
@@ -74,16 +79,13 @@ class SignInFragment : BaseFragment<SignInViewModel>(), ISignInActionsHandler {
             displayWarningToast(
                 message = "Добро пожаловать, ${it.firstName} ${it.lastName}"
             )
+            userData.saveUser(it)
+            activity.toHome()
         })
         signInViewModel.error.observe(this, Observer {
             if (!it.isNullOrBlank()) {
                 displayErrorToast(message = it)
             }
         })
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance() = SignInFragment()
     }
 }

@@ -4,6 +4,6 @@ data class LocationPassword(
     val id: Int,
     val password: String,
     val description: String,
-    val active: Boolean,
+    var active: Boolean,
     val ownerId: Int
 )
