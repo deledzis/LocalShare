@@ -1,0 +1,26 @@
+<resources>
+    <string name="default_notification_channel_id" translatable="false">localshare_general</string>
+    <string name="default_notification_channel_name" translatable="false">Общий</string>
+    <string name="default_notification_channel_description" translatable="false">Канал для подписки на уведомления</string>
+
+    <!-- Headers -->
+    <string name="header_welcome">Добро пожаловать</string>
+    <string name="header_register">Регистрация</string>
+    <string name="header_forget_password">Забыли пароль?</string>
+    <string name="header_my_passwords">Мои пароли</string>
+
+    <!-- Buttons -->
+    <string name="btn_sign_in">Войти</string>
+    <string name="btn_register">Зарегистрироваться</string>
+    <string name="btn_forget_password">Забыли пароль?</string>
+    <string name="btn_add_password">Создать пароль</string>
+    <string name="btn_restore_password">Восстановить пароль</string>
+
+    <!-- Placeholders -->
+    <string name="pl_empty_passwords">Вы пока не создали ни одного пароля</string>
+
+    <!-- Labels -->
+    <string name="label_name">Имя</string>
+    <string name="label_password">Пароль</string>
+    <string name="empty_location_passwords">Вы пока не создали ни одного пароля</string>
+</resources>

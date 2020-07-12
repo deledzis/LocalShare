@@ -1,44 +1,31 @@
 package com.deledzis.localshare.di.component
 
-import android.content.Context
-import android.content.SharedPreferences
-import com.deledzis.localshare.App
-import com.deledzis.localshare.api.ApiInterface
-import com.deledzis.localshare.base.BaseFragment
-import com.deledzis.localshare.data.model.fcm_token.FcmTokenData
-import com.deledzis.localshare.di.model.UserData
+import com.deledzis.localshare.LocalShareApp
+import com.deledzis.localshare.cache.di.DataCacheModule
 import com.deledzis.localshare.di.module.ApplicationModule
-import com.deledzis.localshare.di.module.ContextModule
-import com.deledzis.localshare.di.module.RetrofitModule
-import com.deledzis.localshare.di.qualifier.ApplicationContext
-import com.deledzis.localshare.di.scopes.ApplicationScope
-import com.deledzis.localshare.ui.main.MainActivity
+import com.deledzis.localshare.infrastructure.di.UtilsModule
+import com.deledzis.localshare.presentation.di.builder.MainActivityBuilder
+import com.deledzis.localshare.presentation.di.module.ViewModelModule
+import com.deledzis.localshare.remote.di.NetworkModule
 import dagger.Component
+import dagger.android.AndroidInjectionModule
+import dagger.android.AndroidInjector
+import javax.inject.Singleton
 
-@ApplicationScope
+@Singleton
 @Component(
     modules = [
-        ContextModule::class,
-        RetrofitModule::class,
-        ApplicationModule::class
+        ApplicationModule::class,
+        NetworkModule::class,
+        UtilsModule::class,
+        DataCacheModule::class,
+        MainActivityBuilder::class,
+        ViewModelModule::class,
+        AndroidInjectionModule::class
     ]
 )
-interface ApplicationComponent {
+interface ApplicationComponent : AndroidInjector<LocalShareApp> {
 
-    fun inject(application: App)
-
-    fun inject(activity: MainActivity)
-
-    fun inject(fragment: BaseFragment)
-
-    fun api(): ApiInterface
-
-    @ApplicationContext
-    fun context(): Context
-
-    fun sharedPreferences(): SharedPreferences
-
-    fun userData(): UserData
-
-    fun fcmToken(): FcmTokenData
+    @Component.Factory
+    interface Factory : AndroidInjector.Factory<LocalShareApp>
 }
