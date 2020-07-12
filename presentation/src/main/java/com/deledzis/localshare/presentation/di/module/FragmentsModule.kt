@@ -1,6 +1,5 @@
 package com.deledzis.localshare.presentation.di.module
 
-import com.deledzis.localshare.presentation.screens.locationpasswords.ILocationPasswordActionsHandler
 import com.deledzis.localshare.presentation.screens.locationpasswords.LocationPasswordsFragment
 import dagger.Module
 import dagger.Provides
@@ -11,14 +10,6 @@ object FragmentsModule {
 
     @Provides
     fun provideLocationPasswordsFragment(): LocationPasswordsFragment {
-        if (locationPasswordsFragment == null) {
-            locationPasswordsFragment = LocationPasswordsFragment()
-        }
-        return locationPasswordsFragment!!
-    }
-
-    @Provides
-    fun provideLocationPasswordActionsHandler(): ILocationPasswordActionsHandler {
         if (locationPasswordsFragment == null) {
             locationPasswordsFragment = LocationPasswordsFragment()
         }

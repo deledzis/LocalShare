@@ -2,6 +2,7 @@ package com.deledzis.localshare.domain.usecase
 
 import com.deledzis.localshare.common.usecase.Error
 import com.deledzis.localshare.common.usecase.Response
+import com.deledzis.localshare.domain.model.entity.Entity
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ReceiveChannel
@@ -15,9 +16,9 @@ abstract class BaseUseCase<in Params> : CoroutineScope {
     private val parentJob = SupervisorJob()
     private val mainDispatcher = Dispatchers.Main
     private val backgroundDispatcher = Dispatchers.Default
-    protected val resultChannel = Channel<Response<*, Error>>()
+    protected val resultChannel = Channel<Response<Entity, Error>>()
 
-    val receiveChannel: ReceiveChannel<Response<*, Error>> = resultChannel
+    val receiveChannel: ReceiveChannel<Response<Entity, Error>> = resultChannel
 
     override val coroutineContext: CoroutineContext
         get() = parentJob + mainDispatcher

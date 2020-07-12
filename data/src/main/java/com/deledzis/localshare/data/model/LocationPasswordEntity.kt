@@ -3,8 +3,6 @@ package com.deledzis.localshare.data.model
 import com.google.gson.annotations.SerializedName
 
 data class LocationPasswordEntity(
-    @SerializedName("id")
-    val id: Int,
     @SerializedName("password")
     val password: String,
     @SerializedName("description")

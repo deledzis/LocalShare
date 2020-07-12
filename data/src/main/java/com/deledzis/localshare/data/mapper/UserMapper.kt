@@ -8,8 +8,7 @@ class UserMapper @Inject constructor() : Mapper<UserEntity, User> {
     override fun mapFromEntity(type: UserEntity): User {
         return User(
             id = type.id,
-            firstName = type.firstName,
-            lastName = type.lastName,
+            email = type.email,
             token = type.token
         )
     }
@@ -17,8 +16,7 @@ class UserMapper @Inject constructor() : Mapper<UserEntity, User> {
     override fun mapToEntity(type: User): UserEntity {
         return UserEntity(
             id = type.id,
-            firstName = type.firstName,
-            lastName = type.lastName,
+            email = type.email,
             token = type.token ?: ""
         )
     }

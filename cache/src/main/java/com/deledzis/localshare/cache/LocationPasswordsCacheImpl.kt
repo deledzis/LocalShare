@@ -1,5 +1,6 @@
 package com.deledzis.localshare.cache
 
+import android.util.Log
 import com.deledzis.localshare.cache.db.dao.LocationPasswordsDao
 import com.deledzis.localshare.cache.db.mapper.LocationPasswordEntityMapper
 import com.deledzis.localshare.cache.preferences.locationpasswordscache.LocationPasswordsLastCacheTime
@@ -18,7 +19,7 @@ class LocationPasswordsCacheImpl @Inject constructor(
     private val locationPasswordsDao: LocationPasswordsDao
 ) : LocationPasswordsCache {
 
-    private val EXPIRATION_TIME = (60 * 10 * 1000).toLong() // 10 minutes
+    private val EXPIRATION_TIME = (1000 * 60 * 60 * 24).toLong() // 24 hours
 
     /**
      * Retrieve a list of [LocationPasswordEntity] instances from the database.
@@ -37,8 +38,8 @@ class LocationPasswordsCacheImpl @Inject constructor(
         )
     }
 
-    override suspend fun deleteLocationPassword(id: Int): Int {
-        return locationPasswordsDao.deleteLocationPassword(id = id)
+    override suspend fun deleteLocationPassword(password: String): Int {
+        return locationPasswordsDao.deleteLocationPassword(password = password)
     }
 
     /**
@@ -52,21 +53,32 @@ class LocationPasswordsCacheImpl @Inject constructor(
      * Save the given list of [LocationPasswordEntity] instances to the database.
      */
     override suspend fun saveLocationPasswords(locationPasswords: List<LocationPasswordEntity>) {
-        locationPasswordsDao.insertLocationPasswords(locationPasswords = locationPasswords.map {
-            entityMapper.mapToCached(
-                it
+        val inCache = locationPasswordsDao.getLocationPasswordsByUserId(1)
+        Log.e("TAG", "In Cache: $inCache")
+        Log.e("TAG", "Inserting: $locationPasswords")
+        val result =
+            locationPasswordsDao.insertLocationPasswords(locationPasswords = locationPasswords.map {
+                entityMapper.mapToCached(it)
+            })
+        Log.e("TAG", "Inserted: $result")
+    }
+
+    override suspend fun saveLocationPassword(locationPassword: LocationPasswordEntity) {
+        locationPasswordsDao.insertLocationPassword(
+            locationPassword = entityMapper.mapToCached(
+                locationPassword
             )
-        })
+        )
     }
 
     /**
      * Checked whether there are instances of [LocationPasswordEntity] stored in the cache
      */
     override suspend fun isCached(userId: Int): Boolean {
-        val cachedLocationPassword = locationPasswordsDao.getLocationPasswordsByUserId(
+        val cachedLocationPasswords = locationPasswordsDao.getLocationPasswordsByUserId(
             userId = userId
         )
-        return cachedLocationPassword.isNotEmpty()
+        return cachedLocationPasswords.isNotEmpty()
     }
 
     /**

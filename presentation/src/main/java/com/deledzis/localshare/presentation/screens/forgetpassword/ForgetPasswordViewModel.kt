@@ -3,18 +3,20 @@ package com.deledzis.localshare.presentation.screens.forgetpassword
 import androidx.lifecycle.MutableLiveData
 import com.deledzis.localshare.common.usecase.Error
 import com.deledzis.localshare.common.usecase.Response
-import com.deledzis.localshare.domain.usecase.locationpassword.GetLocationPasswordsUseCase
+import com.deledzis.localshare.domain.model.entity.Entity
+import com.deledzis.localshare.domain.model.entity.auth.ForgetPasswordResponse
+import com.deledzis.localshare.domain.model.request.ForgetPasswordRequest
+import com.deledzis.localshare.domain.usecase.auth.ForgetPasswordUseCase
 import com.deledzis.localshare.presentation.base.BaseViewModel
 import kotlinx.coroutines.channels.ReceiveChannel
 import javax.inject.Inject
 
 class ForgetPasswordViewModel @Inject constructor(
-//    private val repository: ForgetPasswordRepository
-    private val getLocationPasswordsUseCase: GetLocationPasswordsUseCase
+    private val forgetPasswordUseCase: ForgetPasswordUseCase
 ) : BaseViewModel() {
 
-    override val receiveChannel: ReceiveChannel<Response<*, Error>>
-        get() = getLocationPasswordsUseCase.receiveChannel
+    override val receiveChannel: ReceiveChannel<Response<Entity, Error>>
+        get() = forgetPasswordUseCase.receiveChannel
 
     private var _error = MutableLiveData<String>()
     val error = _error
@@ -25,11 +27,10 @@ class ForgetPasswordViewModel @Inject constructor(
     private var _email = MutableLiveData<String>()
     val email = _email
 
-    init {
-        getLocationPasswordsUseCase(params = 0) // TODO: User Id
-    }
+    private var _result = MutableLiveData<Boolean>()
+    val result = _result
 
-    override suspend fun resolve(value: Response<*, Error>) {
+    override suspend fun resolve(value: Response<Entity, Error>) {
         value.handleResult(
             stateBlock = ::handleState,
             failureBlock = ::handleFailure,
@@ -37,40 +38,40 @@ class ForgetPasswordViewModel @Inject constructor(
         )
     }
 
-    suspend fun handleSuccess(data: Any?) {
-        TODO("Not implemented")
+    private suspend fun handleSuccess(data: Any?) {
+        if (data !is ForgetPasswordResponse) return
+
+        _result.postValue(data.result)
     }
 
-    suspend fun handleFailure(error: Error) {
-        TODO("Not implemented")
+    private suspend fun handleFailure(error: Error) {
+        _error.postValue(error.exception?.message)
     }
 
-    suspend fun handleState(state: Response.State) {
-        TODO("Not implemented")
+    private suspend fun handleState(state: Response.State) {
+        when (state) {
+            is Response.State.Loading -> {
+                startLoading()
+            }
+            is Response.State.Loaded -> {
+                stopLoading()
+            }
+        }
     }
-
-    private var _result = MutableLiveData<Boolean>()
-    val result = _result
 
     fun forgetPassword() {
         _error.value = null
         _emailError.value = null
 
-        startLoading()
-        /*scope.launch {
-            if (email.value.isNullOrBlank()) {
-                _emailError.postValue("Введите E-mail")
-                stopLoading()
-                return@launch
-            }
+        if (email.value.isNullOrBlank()) {
+            _emailError.postValue("Введите E-mail")
+            return
+        }
 
-            delay(1000)
-            val result = repository.forgetPassword(
+        forgetPasswordUseCase(
+            ForgetPasswordRequest(
                 email = email.value!!
             )
-            _result.postValue(result)
-
-            stopLoading()
-        }*/
+        )
     }
 }

@@ -9,10 +9,7 @@ import androidx.room.PrimaryKey
  */
 @Entity(tableName = "location_passwords")
 data class CachedLocationPassword(
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id")
-    val id: Int,
-
+    @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "password")
     val password: String,
 

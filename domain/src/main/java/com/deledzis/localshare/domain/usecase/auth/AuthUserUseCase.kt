@@ -4,7 +4,6 @@ import com.deledzis.localshare.common.usecase.Response
 import com.deledzis.localshare.domain.model.request.AuthUserRequest
 import com.deledzis.localshare.domain.repository.AuthRepository
 import com.deledzis.localshare.domain.usecase.BaseUseCase
-import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 class AuthUserUseCase @Inject constructor(
@@ -15,13 +14,14 @@ class AuthUserUseCase @Inject constructor(
         // Started loading
         resultChannel.send(Response.State.Loading())
 
-        // Get passwords and send it, synchronous
-        delay(1000)
+        // synchronous
+//        delay(1000)
         val auth = authRepository.auth(
             email = params.email,
             password = params.password
         )
         resultChannel.send(auth)
+
         resultChannel.send(Response.State.Loaded())
     }
 }

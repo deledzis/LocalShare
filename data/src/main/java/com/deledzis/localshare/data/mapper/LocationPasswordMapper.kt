@@ -7,7 +7,6 @@ import javax.inject.Inject
 class LocationPasswordMapper @Inject constructor() : Mapper<LocationPasswordEntity, LocationPassword> {
     override fun mapFromEntity(type: LocationPasswordEntity): LocationPassword {
         return LocationPassword(
-            id = type.id,
             password = type.password,
             description = type.description,
             active = type.active,
@@ -17,7 +16,6 @@ class LocationPasswordMapper @Inject constructor() : Mapper<LocationPasswordEnti
 
     override fun mapToEntity(type: LocationPassword): LocationPasswordEntity {
         return LocationPasswordEntity(
-            id = type.id,
             password = type.password,
             description = type.description,
             active = type.active,

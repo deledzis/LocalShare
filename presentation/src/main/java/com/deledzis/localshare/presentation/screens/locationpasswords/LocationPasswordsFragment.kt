@@ -8,7 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.deledzis.localshare.domain.model.LocationPassword
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.deledzis.localshare.infrastructure.extensions.injectViewModel
 import com.deledzis.localshare.presentation.R
 import com.deledzis.localshare.presentation.base.BaseFragment
@@ -16,7 +16,7 @@ import com.deledzis.localshare.presentation.databinding.FragmentLocationPassword
 import javax.inject.Inject
 
 class LocationPasswordsFragment : BaseFragment<LocationPasswordsViewModel>(),
-    ILocationPasswordActionsHandler/*, SwipeRefreshLayout.OnRefreshListener*/ {
+    SwipeRefreshLayout.OnRefreshListener {
 
     private lateinit var dataBinding: FragmentLocationPasswordsBinding
 
@@ -45,6 +45,7 @@ class LocationPasswordsFragment : BaseFragment<LocationPasswordsViewModel>(),
         )
         dataBinding.lifecycleOwner = viewLifecycleOwner
         dataBinding.viewModel = locationPasswordsViewModel
+        dataBinding.handler = locationPasswordsViewModel
 
         return dataBinding.root
     }
@@ -52,32 +53,41 @@ class LocationPasswordsFragment : BaseFragment<LocationPasswordsViewModel>(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        dataBinding.rvLocationPasswords.layoutManager = LinearLayoutManager(activity)
-        dataBinding.rvLocationPasswords.adapter = adapter
+        with(dataBinding) {
+            rvLocationPasswords.layoutManager = LinearLayoutManager(activity)
+            rvLocationPasswords.adapter = adapter
+            layoutEmptyState.handler = locationPasswordsViewModel
+            srl.setOnRefreshListener(this@LocationPasswordsFragment)
+        }
+
+        adapter.listener = locationPasswordsViewModel
     }
 
     override fun bindObservers() {
         locationPasswordsViewModel.locationPasswords.observe(this, Observer {
+            dataBinding.srl.isRefreshing = false
             adapter.locationPasswords = it ?: return@Observer
+            adapter.notifyDataSetChanged()
+        })
+        locationPasswordsViewModel.locationPasswordUpdate.observe(this, Observer {
+            dataBinding.srl.isRefreshing = false
+            adapter.notifyItemChanged(it.second)
         })
         locationPasswordsViewModel.error.observe(this, Observer {
+            dataBinding.srl.isRefreshing = false
             if (!it.isNullOrBlank()) {
-                displayErrorToast(message = it)
+//                displayErrorToast(message = it)
+            }
+        })
+        locationPasswordsViewModel.userError.observe(this, Observer {
+            dataBinding.srl.isRefreshing = false
+            if (it) {
+                activity.toSignIn()
             }
         })
     }
 
-    override fun handleOnClick(password: LocationPassword) {
-
+    override fun onRefresh() {
+        locationPasswordsViewModel.refreshLocationPasswords()
     }
-
-    override fun handleActiveTrigger(password: LocationPassword) {
-        locationPasswordsViewModel.handleActiveTrigger(password = password)
-    }
-
-    // TODO
-    /*override fun onRefresh() {
-        bindObservers()
-        dataBinding.srl.isRefreshing = false
-    }*/
 }

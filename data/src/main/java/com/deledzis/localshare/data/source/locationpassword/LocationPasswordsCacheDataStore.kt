@@ -33,7 +33,18 @@ open class LocationPasswordsCacheDataStore @Inject constructor(
         password: String,
         description: String
     ): Response<Boolean, Error> {
-        return Response.Failure(Error.UnsupportedOperationError())
+        return try {
+            locationPasswordsCache.saveLocationPassword(locationPassword = LocationPasswordEntity(
+                password = password,
+                description = description,
+                active = false,
+                ownerId = 1
+            ))
+            locationPasswordsCache.setLastCacheTime(System.currentTimeMillis())
+            Response.Success(successData = true)
+        } catch (e: Exception) {
+            Response.Failure(Error.PersistenceError(exception = e))
+        }
     }
 
     override suspend fun updateLocationPassword(locationPassword: LocationPasswordEntity): Response<Boolean, Error> {
@@ -47,9 +58,9 @@ open class LocationPasswordsCacheDataStore @Inject constructor(
         }
     }
 
-    override suspend fun deleteLocationPassword(id: Int): Response<Boolean, Error> {
+    override suspend fun deleteLocationPassword(password: String): Response<Boolean, Error> {
         return try {
-            val deletedRows = locationPasswordsCache.deleteLocationPassword(id = id)
+            val deletedRows = locationPasswordsCache.deleteLocationPassword(password = password)
             Response.Success(successData = deletedRows > 0)
         } catch (e: Exception) {
             Response.Failure(Error.PersistenceError(exception = e))

@@ -8,7 +8,6 @@ class LocationPasswordEntityMapper @Inject constructor() :
     EntityMapper<CachedLocationPassword, LocationPasswordEntity> {
     override fun mapFromCached(type: CachedLocationPassword): LocationPasswordEntity {
         return LocationPasswordEntity(
-            id = type.id,
             password = type.password,
             description = type.description,
             active = type.active,
@@ -18,7 +17,6 @@ class LocationPasswordEntityMapper @Inject constructor() :
 
     override fun mapToCached(type: LocationPasswordEntity): CachedLocationPassword {
         return CachedLocationPassword(
-            id = type.id,
             password = type.password,
             description = type.description,
             active = type.active,

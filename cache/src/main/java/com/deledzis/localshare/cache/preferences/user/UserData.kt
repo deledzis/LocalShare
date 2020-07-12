@@ -25,8 +25,8 @@ class UserData @Inject constructor(
         return this.user?.let { mapper.mapFromEntity(it) }
     }
 
-    override fun saveUser(user: User): Boolean {
-        this.user = mapper.mapToEntity(user)
+    override fun saveUser(user: User?): Boolean {
+        this.user = user?.let { mapper.mapToEntity(it) }
         return true
     }
 }

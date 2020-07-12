@@ -27,5 +27,5 @@ interface LocationPasswordsRemote {
     /**
      * Delete an existing instance of [LocationPasswordEntity].
      */
-    suspend fun deleteLocationPassword(id: Int): Boolean
+    suspend fun deleteLocationPassword(password: String): Boolean
 }

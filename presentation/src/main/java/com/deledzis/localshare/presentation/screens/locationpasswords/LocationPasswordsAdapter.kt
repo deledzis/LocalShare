@@ -11,11 +11,17 @@ import com.deledzis.localshare.presentation.databinding.ItemLocationPasswordBind
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
-class LocationPasswordsAdapter @Inject constructor(val listener: ILocationPasswordActionsHandler) :
+class LocationPasswordsAdapter @Inject constructor() :
     RecyclerView.Adapter<LocationPasswordsAdapter.ViewHolder>() {
+
+    var listener: ILocationPasswordActionsHandler? = null
+
     var locationPasswords: List<LocationPassword> by Delegates.observable(emptyList()) { _, old, new ->
         autoNotify(old, new) { o, n ->
-            o.id == n.id && o.password == n.password && o.description == n.description
+            o.password == n.password &&
+                    o.description == n.description &&
+                    o.active == n.active &&
+                    o.ownerId == n.ownerId
         }
     }
 
@@ -33,15 +39,16 @@ class LocationPasswordsAdapter @Inject constructor(val listener: ILocationPasswo
     override fun getItemCount() = locationPasswords.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(locationPasswords[position])
+        holder.bind(locationPasswords[position], position)
     }
 
     inner class ViewHolder(private val binding: ItemLocationPasswordBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: LocationPassword) = with(binding) {
+        fun bind(item: LocationPassword, pos: Int) = with(binding) {
             password = item
-            controller = listener
+            position = pos
+            viewModel = listener
         }
     }
 }

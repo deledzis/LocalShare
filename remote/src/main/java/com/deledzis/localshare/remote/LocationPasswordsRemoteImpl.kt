@@ -41,7 +41,6 @@ class LocationPasswordsRemoteImpl @Inject constructor(
     override suspend fun updateLocationPassword(locationPasswordEntity: LocationPasswordEntity): Boolean {
         return apiService.updateLocationPassword(
             request = UpdateLocationPasswordRequest(
-                id = locationPasswordEntity.id,
                 password = locationPasswordEntity.password,
                 description = locationPasswordEntity.description
             )
@@ -51,9 +50,9 @@ class LocationPasswordsRemoteImpl @Inject constructor(
     /**
      * Delete an existing instance of [LocationPasswordEntity].
      */
-    override suspend fun deleteLocationPassword(id: Int): Boolean {
+    override suspend fun deleteLocationPassword(password: String): Boolean {
         return apiService.deleteLocationPassword(
-            request = DeleteLocationPasswordRequest(id = id)
+            request = DeleteLocationPasswordRequest(password = password)
         )
     }
 

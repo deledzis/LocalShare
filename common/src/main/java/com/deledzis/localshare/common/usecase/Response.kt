@@ -43,7 +43,7 @@ sealed class Response<out T, out R> {
         return when (this) {
             is Success<*> -> "Success[data=$successData]"
             is Failure<*> -> "Failure[exception=$errorData]"
-            else -> "Unknown State: $this"
+            is State -> "State[state=${this::class.java}]"
         }
     }
 }

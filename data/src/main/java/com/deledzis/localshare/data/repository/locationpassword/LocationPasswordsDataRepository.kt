@@ -5,9 +5,10 @@ import com.deledzis.localshare.common.usecase.Error
 import com.deledzis.localshare.common.usecase.Response
 import com.deledzis.localshare.data.mapper.LocationPasswordMapper
 import com.deledzis.localshare.data.source.locationpassword.LocationPasswordsDataStoreFactory
+import com.deledzis.localshare.data.source.locationpassword.LocationPasswordsRemoteDataStore
 import com.deledzis.localshare.domain.model.LocationPassword
+import com.deledzis.localshare.domain.model.entity.locationpassword.*
 import com.deledzis.localshare.domain.repository.LocationPasswordsRepository
-import com.deledzis.localshare.domain.usecase.None
 import javax.inject.Inject
 
 /**
@@ -20,16 +21,37 @@ class LocationPasswordsDataRepository @Inject constructor(
     private val networkManager: BaseNetworkManager
 ) : LocationPasswordsRepository {
 
-    override suspend fun getLocationPasswords(userId: Int): Response<List<LocationPassword>, Error> {
-        val dataStore = factory.retrieveDataStore(userId = userId)
-        val locationPasswords = dataStore.getLocationPasswords(userId = userId)
-        var response: Response<List<LocationPassword>, Error> = Response.Success(emptyList())
+    override suspend fun getLocationPasswords(
+        userId: Int,
+        refresh: Boolean
+    ): Response<GetLocationPasswordsResponse, Error> {
+        val dataStore = if (refresh) {
+            factory.retrieveRemoteDataStore()
+        } else {
+            factory.retrieveDataStore(userId = userId)
+        }
+        val locationPasswords = dataStore
+            .getLocationPasswords(userId = userId)
+        var response: Response<GetLocationPasswordsResponse, Error> = Response.Failure(
+            Error.ResponseError()
+        )
         locationPasswords.handleResult(
             stateBlock = {
                 response = it
             },
             successBlock = { list ->
-                response = Response.Success(list.map { locationPasswordMapper.mapFromEntity(it) })
+                if (dataStore is LocationPasswordsRemoteDataStore) {
+                    clearLocationPasswords()
+                    saveLocationPasswords(locationPasswords = list.map {
+                        locationPasswordMapper.mapFromEntity(it)
+                    })
+                }
+                response = Response.Success(
+                    GetLocationPasswordsResponse(
+                        items = list.map {
+                            locationPasswordMapper.mapFromEntity(it)
+                        })
+                )
             },
             failureBlock = {
                 response = Response.Failure(it)
@@ -41,22 +63,99 @@ class LocationPasswordsDataRepository @Inject constructor(
     override suspend fun addLocationPassword(
         password: String,
         description: String
-    ): Response<Boolean, Error> {
+    ): Response<AddLocationPasswordResponse, Error> {
         return if (networkManager.isConnectedToInternet()) {
-            factory.retrieveRemoteDataStore().addLocationPassword(
+            val result = factory.retrieveRemoteDataStore()
+                .addLocationPassword(
+                    password = password,
+                    description = description
+                )
+            handleAddPasswordRemote(
                 password = password,
-                description = description
+                description = description,
+                result = result
             )
         } else {
             Response.Failure(Error.NetworkConnectionError())
         }
     }
 
-    override suspend fun updateLocationPassword(locationPassword: LocationPassword): Response<Boolean, Error> {
+    private suspend fun handleAddPasswordRemote(
+        password: String,
+        description: String,
+        result: Response<Boolean, Error>
+    ): Response<AddLocationPasswordResponse, Error> {
+        var response: Response<AddLocationPasswordResponse, Error> = Response.Failure(
+            Error.ResponseError()
+        )
+        result.handleResult(
+            stateBlock = {
+                response = it
+            },
+            successBlock = {
+                response = if (it) {
+                    val addedCache =
+                        factory.retrieveCacheDataStore().addLocationPassword(
+                            password = password,
+                            description = description
+                        )
+
+                    handleAddPasswordCache(result = addedCache)
+                } else {
+                    Response.Success(
+                        AddLocationPasswordResponse(
+                            result = it
+                        )
+                    )
+                }
+            },
+            failureBlock = {
+                val addedCache =
+                    factory.retrieveCacheDataStore().addLocationPassword(
+                        password = password,
+                        description = description
+                    )
+
+                handleAddPasswordCache(result = addedCache)
+                response = Response.Failure(it)
+            }
+        )
+
+        return response
+    }
+
+    private suspend fun handleAddPasswordCache(
+        result: Response<Boolean, Error>
+    ): Response<AddLocationPasswordResponse, Error> {
+        var response: Response<AddLocationPasswordResponse, Error> = Response.Failure(
+            Error.ResponseError()
+        )
+        result.handleResult(
+            stateBlock = {
+                response = it
+            },
+            successBlock = {
+                response = Response.Success(
+                    AddLocationPasswordResponse(
+                        result = it
+                    )
+                )
+            },
+            failureBlock = {
+                response = Response.Failure(it)
+            }
+        )
+
+        return response
+    }
+
+    override suspend fun updateLocationPassword(locationPassword: LocationPassword)
+            : Response<UpdateLocationPasswordResponse, Error> {
         return if (networkManager.isConnectedToInternet()) {
-            val updatedRemote = factory.retrieveRemoteDataStore().updateLocationPassword(
-                locationPassword = locationPasswordMapper.mapToEntity(locationPassword)
-            )
+            val updatedRemote = factory.retrieveRemoteDataStore()
+                .updateLocationPassword(
+                    locationPassword = locationPasswordMapper.mapToEntity(locationPassword)
+                )
             handleUpdatePasswordRemote(locationPassword = locationPassword, result = updatedRemote)
         } else {
             Response.Failure(Error.NetworkConnectionError())
@@ -66,8 +165,10 @@ class LocationPasswordsDataRepository @Inject constructor(
     private suspend fun handleUpdatePasswordRemote(
         locationPassword: LocationPassword,
         result: Response<Boolean, Error>
-    ): Response<Boolean, Error> {
-        var response: Response<Boolean, Error> = result
+    ): Response<UpdateLocationPasswordResponse, Error> {
+        var response: Response<UpdateLocationPasswordResponse, Error> = Response.Failure(
+            Error.ResponseError()
+        )
         result.handleResult(
             stateBlock = {
                 response = it
@@ -81,10 +182,20 @@ class LocationPasswordsDataRepository @Inject constructor(
 
                     handleUpdatePasswordCache(result = updatedCache)
                 } else {
-                    Response.Success(it)
+                    Response.Success(
+                        UpdateLocationPasswordResponse(
+                            result = it
+                        )
+                    )
                 }
             },
             failureBlock = {
+                val updatedCache =
+                    factory.retrieveCacheDataStore().updateLocationPassword(
+                        locationPassword = locationPasswordMapper.mapToEntity(locationPassword)
+                    )
+
+                handleUpdatePasswordCache(result = updatedCache)
                 response = Response.Failure(it)
             }
         )
@@ -94,14 +205,20 @@ class LocationPasswordsDataRepository @Inject constructor(
 
     private suspend fun handleUpdatePasswordCache(
         result: Response<Boolean, Error>
-    ): Response<Boolean, Error> {
-        var response: Response<Boolean, Error> = result
+    ): Response<UpdateLocationPasswordResponse, Error> {
+        var response: Response<UpdateLocationPasswordResponse, Error> = Response.Failure(
+            Error.ResponseError()
+        )
         result.handleResult(
             stateBlock = {
                 response = it
             },
             successBlock = {
-                response = Response.Success(it)
+                response = Response.Success(
+                    UpdateLocationPasswordResponse(
+                        result = it
+                    )
+                )
             },
             failureBlock = {
                 response = Response.Failure(it)
@@ -111,32 +228,40 @@ class LocationPasswordsDataRepository @Inject constructor(
         return response
     }
 
-    override suspend fun deleteLocationPassword(id: Int): Response<Boolean, Error> {
+    override suspend fun deleteLocationPassword(password: String)
+            : Response<DeleteLocationPasswordResponse, Error> {
         return if (networkManager.isConnectedToInternet()) {
-            val deletedRemote = factory.retrieveRemoteDataStore().deleteLocationPassword(id = id)
-            handleDeletePasswordRemote(id = id, result = deletedRemote)
+            val deletedRemote = factory.retrieveRemoteDataStore()
+                .deleteLocationPassword(password = password)
+            handleDeletePasswordRemote(password = password, result = deletedRemote)
         } else {
             Response.Failure(Error.NetworkConnectionError())
         }
     }
 
     private suspend fun handleDeletePasswordRemote(
-        id: Int,
+        password: String,
         result: Response<Boolean, Error>
-    ): Response<Boolean, Error> {
-        var response: Response<Boolean, Error> = result
+    ): Response<DeleteLocationPasswordResponse, Error> {
+        var response: Response<DeleteLocationPasswordResponse, Error> = Response.Failure(
+            Error.ResponseError()
+        )
         result.handleResult(
             stateBlock = {
                 response = it
             },
             successBlock = {
                 response = if (it) {
-                    val deletedCache =
-                        factory.retrieveCacheDataStore().deleteLocationPassword(id = id)
+                    val deletedCache = factory.retrieveCacheDataStore()
+                        .deleteLocationPassword(password = password)
 
                     handleDeletePasswordCache(result = deletedCache)
                 } else {
-                    Response.Success(it)
+                    Response.Success(
+                        DeleteLocationPasswordResponse(
+                            result = it
+                        )
+                    )
                 }
             },
             failureBlock = {
@@ -149,14 +274,20 @@ class LocationPasswordsDataRepository @Inject constructor(
 
     private suspend fun handleDeletePasswordCache(
         result: Response<Boolean, Error>
-    ): Response<Boolean, Error> {
-        var response: Response<Boolean, Error> = result
+    ): Response<DeleteLocationPasswordResponse, Error> {
+        var response: Response<DeleteLocationPasswordResponse, Error> = Response.Failure(
+            Error.ResponseError()
+        )
         result.handleResult(
             stateBlock = {
                 response = it
             },
             successBlock = {
-                response = Response.Success(it)
+                response = Response.Success(
+                    DeleteLocationPasswordResponse(
+                        result = it
+                    )
+                )
             },
             failureBlock = {
                 response = Response.Failure(it)
@@ -166,15 +297,51 @@ class LocationPasswordsDataRepository @Inject constructor(
         return response
     }
 
-    override suspend fun clearLocationPasswords(): Response<None, Error> {
-        return factory.retrieveCacheDataStore().clearLocationPasswords()
+    override suspend fun clearLocationPasswords(): Response<ClearLocationPasswordsResponse, Error> {
+        val result = factory.retrieveCacheDataStore()
+            .clearLocationPasswords()
+        var response: Response<ClearLocationPasswordsResponse, Error> = Response.Failure(
+            Error.ResponseError()
+        )
+        result.handleResult(
+            stateBlock = {
+                response = it
+            },
+            successBlock = {
+                response = Response.Success(ClearLocationPasswordsResponse())
+            },
+            failureBlock = {
+                response = Response.Failure(it)
+            }
+        )
+
+        return response
     }
 
-    override suspend fun saveLocationPasswords(locationPasswords: List<LocationPassword>): Response<None, Error> {
-        return factory.retrieveCacheDataStore()
-            .saveLocationPasswords(locationPasswords = locationPasswords.map {
+    override suspend fun saveLocationPasswords(locationPasswords: List<LocationPassword>)
+            : Response<SaveLocationPasswordsResponse, Error> {
+        val result = factory.retrieveCacheDataStore().saveLocationPasswords(
+            locationPasswords = locationPasswords.map {
                 locationPasswordMapper.mapToEntity(it)
-            })
+            }
+        )
+        println("Result: $result")
+        var response: Response<SaveLocationPasswordsResponse, Error> = Response.Failure(
+            Error.ResponseError()
+        )
+        result.handleResult(
+            stateBlock = {
+                response = it
+            },
+            successBlock = {
+                response = Response.Success(SaveLocationPasswordsResponse())
+            },
+            failureBlock = {
+                response = Response.Failure(it)
+            }
+        )
+
+        return response
     }
 
 }

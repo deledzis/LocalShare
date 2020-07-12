@@ -3,14 +3,19 @@ package com.deledzis.localshare.presentation.screens.signin
 import androidx.lifecycle.MutableLiveData
 import com.deledzis.localshare.common.usecase.Error
 import com.deledzis.localshare.common.usecase.Response
-import com.deledzis.localshare.domain.model.Auth
 import com.deledzis.localshare.domain.model.User
+import com.deledzis.localshare.domain.model.entity.Entity
+import com.deledzis.localshare.domain.model.entity.auth.AuthResponse
+import com.deledzis.localshare.domain.model.entity.auth.GetUserResponse
 import com.deledzis.localshare.domain.model.request.AuthUserRequest
 import com.deledzis.localshare.domain.usecase.auth.AuthUserUseCase
 import com.deledzis.localshare.domain.usecase.auth.GetUserUseCase
+import com.deledzis.localshare.infrastructure.extensions.mergeChannels
 import com.deledzis.localshare.infrastructure.util.isDebug
 import com.deledzis.localshare.presentation.base.BaseViewModel
 import kotlinx.coroutines.channels.ReceiveChannel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SignInViewModel @Inject constructor(
@@ -18,13 +23,14 @@ class SignInViewModel @Inject constructor(
     private val getUserUseCase: GetUserUseCase
 ) : BaseViewModel() {
 
-    override val receiveChannel: ReceiveChannel<Response<*, Error>>
-        get() = authUserUseCase.receiveChannel
+    override val receiveChannel: ReceiveChannel<Response<Entity, Error>>
+        get() = mergeChannels(
+            authUserUseCase.receiveChannel,
+            getUserUseCase.receiveChannel
+        )
 
     private var _error = MutableLiveData<String>()
     val error = _error
-
-    private var _token = MutableLiveData<String>()
 
     private var _emailError = MutableLiveData<String>()
     val emailError = _emailError
@@ -32,7 +38,21 @@ class SignInViewModel @Inject constructor(
     private var _passwordError = MutableLiveData<String>()
     val passwordError = _passwordError
 
-    override suspend fun resolve(value: Response<*, Error>) {
+    private var _inTransition = MutableLiveData<Boolean>()
+    val inTransition = _inTransition
+
+    private var _email = MutableLiveData<String>()
+    val email = _email
+
+    private var _password = MutableLiveData<String>()
+    val password = _password
+
+    private var _token = MutableLiveData<String>()
+
+    private var _user = MutableLiveData<User>()
+    val user = _user
+
+    override suspend fun resolve(value: Response<Entity, Error>) {
         value.handleResult(
             stateBlock = ::handleState,
             failureBlock = ::handleFailure,
@@ -41,20 +61,24 @@ class SignInViewModel @Inject constructor(
     }
 
     private suspend fun handleSuccess(data: Any?) {
-        data ?: handleAuthEmptyResponse()
-        if (data is Auth) {
-            _token.postValue(data.token)
-            getUserUseCase(data.userId)
+        if (data !is Entity) {
+            handleAuthEmptyResponse(_email.value!!)
+            return
         }
-        if (data is User) {
-            data.token = _token.value
-            _user.postValue(data)
+
+        if (data is AuthResponse) {
+            _token.postValue(data.auth.token)
+            getUserUseCase(data.auth.userId)
+        }
+        if (data is GetUserResponse) {
+            data.user.token = _token.value
+            _user.postValue(data.user)
         }
     }
 
     private suspend fun handleFailure(error: Error) {
         _error.postValue(error.exception?.message)
-        handleAuthEmptyResponse()
+        handleAuthEmptyResponse(_email.value!!)
     }
 
     private suspend fun handleState(state: Response.State) {
@@ -67,15 +91,6 @@ class SignInViewModel @Inject constructor(
             }
         }
     }
-
-    private var _email = MutableLiveData<String>()
-    val email = _email
-
-    private var _password = MutableLiveData<String>()
-    val password = _password
-
-    private var _user = MutableLiveData<User>()
-    val user = _user
 
     fun login() {
         _error.value = null
@@ -92,29 +107,35 @@ class SignInViewModel @Inject constructor(
             stopLoading()
             return
         }
-        authUserUseCase(params = AuthUserRequest(
-            email = _email.value!!,
-            password = password.value!!
-        ))
+        authUserUseCase(
+            params = AuthUserRequest(
+                email = _email.value!!,
+                password = password.value!!
+            )
+        )
     }
 
     fun handleFragmentChange() {
-        stopLoading()
+        launch {
+            stopLoading()
+            _inTransition.postValue(true)
+            delay(500)
+            _inTransition.postValue(false)
+        }
     }
 
-    private fun handleAuthEmptyResponse() {
+    private fun handleAuthEmptyResponse(email: String) {
         if (isDebug) {
-            val mockUser = generateMockUser()
+            val mockUser = generateMockUser(email = email)
             _user.postValue(mockUser)
         } else {
             _error.postValue("Не удалось войти с предоставленными учетными данными")
         }
     }
 
-    private fun generateMockUser(): User = User(
+    private fun generateMockUser(email: String): User = User(
         id = 1,
-        firstName = "Name",
-        lastName = "Test",
+        email = email,
         token = "asdksadjlkasdjalsd"
     )
 }

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.deledzis.localshare.domain.model.BaseUserData
 import com.deledzis.localshare.infrastructure.extensions.injectViewModel
 import com.deledzis.localshare.presentation.R
 import com.deledzis.localshare.presentation.base.BaseFragment
@@ -20,6 +21,9 @@ class RegisterFragment @Inject constructor() : BaseFragment<RegisterViewModel>()
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var registerViewModel: RegisterViewModel
+
+    @Inject
+    lateinit var userData: BaseUserData
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,12 +55,14 @@ class RegisterFragment @Inject constructor() : BaseFragment<RegisterViewModel>()
     override fun bindObservers() {
         registerViewModel.user.observe(this, Observer {
             displayInfoToast(
-                message = "Добро пожаловать, ${it.firstName} ${it.lastName}"
+                message = "Добро пожаловать! Вы вошли как ${it.email}"
             )
+            userData.saveUser(it)
+            activity.toHome()
         })
         registerViewModel.error.observe(this, Observer {
             if (!it.isNullOrBlank()) {
-                displayErrorToast(message = it)
+//                displayErrorToast(message = it)
             }
         })
     }

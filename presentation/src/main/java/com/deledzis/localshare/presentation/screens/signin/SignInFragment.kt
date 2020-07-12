@@ -77,14 +77,14 @@ class SignInFragment @Inject constructor() : BaseFragment<SignInViewModel>(), IS
     override fun bindObservers() {
         signInViewModel.user.observe(this, Observer {
             displayWarningToast(
-                message = "Добро пожаловать, ${it.firstName} ${it.lastName}"
+                message = "Добро пожаловать! Вы вошли как ${it.email}"
             )
             userData.saveUser(it)
             activity.toHome()
         })
         signInViewModel.error.observe(this, Observer {
             if (!it.isNullOrBlank()) {
-                displayErrorToast(message = it)
+//                displayErrorToast(message = it)
             }
         })
     }

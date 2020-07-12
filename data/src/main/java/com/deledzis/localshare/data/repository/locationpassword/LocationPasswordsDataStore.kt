@@ -18,7 +18,7 @@ interface LocationPasswordsDataStore {
 
     suspend fun updateLocationPassword(locationPassword: LocationPasswordEntity): Response<Boolean, Error>
 
-    suspend fun deleteLocationPassword(id: Int): Response<Boolean, Error>
+    suspend fun deleteLocationPassword(password: String): Response<Boolean, Error>
 
     suspend fun clearLocationPasswords(): Response<None, Error>
 

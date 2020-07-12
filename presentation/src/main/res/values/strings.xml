@@ -22,4 +22,5 @@
     <!-- Labels -->
     <string name="label_name">Имя</string>
     <string name="label_password">Пароль</string>
+    <string name="empty_location_passwords">Вы пока не создали ни одного пароля</string>
 </resources>

@@ -11,8 +11,8 @@ interface LocationPasswordsDao {
     @Query("SELECT * FROM location_passwords WHERE owner_id = :userId")
     suspend fun getLocationPasswordsByUserId(userId: Int): List<CachedLocationPassword>
 
-    @Query("SELECT * FROM location_passwords WHERE id = :id LIMIT 1")
-    suspend fun getLocationPassword(id: Int): CachedLocationPassword?
+    @Query("SELECT * FROM location_passwords WHERE password = :password LIMIT 1")
+    suspend fun getLocationPassword(password: String): CachedLocationPassword?
 
     @Insert
     suspend fun insertLocationPassword(locationPassword: CachedLocationPassword): Long
@@ -23,8 +23,8 @@ interface LocationPasswordsDao {
     @Update
     suspend fun updateLocationPassword(locationPassword: CachedLocationPassword): Int
 
-    @Query("DELETE FROM location_passwords WHERE id = :id")
-    suspend fun deleteLocationPassword(id: Int): Int
+    @Query("DELETE FROM location_passwords WHERE password = :password")
+    suspend fun deleteLocationPassword(password: String): Int
 
     @Query("DELETE FROM location_passwords")
     suspend fun deleteLocationPasswords(): Int

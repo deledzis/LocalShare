@@ -12,8 +12,9 @@ import javax.inject.Inject
  * Implementation of the [LocationPasswordsDataStore] interface to provide a means of communicating
  * with the remote data source
  */
-open class LocationPasswordsRemoteDataStore @Inject constructor(private val locationPasswordsRemote: LocationPasswordsRemote) :
-    LocationPasswordsDataStore {
+open class LocationPasswordsRemoteDataStore @Inject constructor(
+    private val locationPasswordsRemote: LocationPasswordsRemote
+) : LocationPasswordsDataStore {
 
     override suspend fun getLocationPasswords(userId: Int): Response<List<LocationPasswordEntity>, Error> {
         return try {
@@ -51,9 +52,9 @@ open class LocationPasswordsRemoteDataStore @Inject constructor(private val loca
         }
     }
 
-    override suspend fun deleteLocationPassword(id: Int): Response<Boolean, Error> {
+    override suspend fun deleteLocationPassword(password: String): Response<Boolean, Error> {
         return try {
-            val deleted = locationPasswordsRemote.deleteLocationPassword(id = id)
+            val deleted = locationPasswordsRemote.deleteLocationPassword(password = password)
             Response.Success(successData = deleted)
         } catch (e: Exception) {
             Response.Failure(Error.NetworkError(exception = e))

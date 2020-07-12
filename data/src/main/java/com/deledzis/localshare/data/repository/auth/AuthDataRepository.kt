@@ -6,8 +6,7 @@ import com.deledzis.localshare.common.usecase.Response
 import com.deledzis.localshare.data.mapper.AuthMapper
 import com.deledzis.localshare.data.mapper.UserMapper
 import com.deledzis.localshare.data.source.auth.AuthDataStoreFactory
-import com.deledzis.localshare.domain.model.Auth
-import com.deledzis.localshare.domain.model.User
+import com.deledzis.localshare.domain.model.entity.auth.*
 import com.deledzis.localshare.domain.repository.AuthRepository
 import com.deledzis.localshare.domain.repository.LocationPasswordsRepository
 import javax.inject.Inject
@@ -23,19 +22,23 @@ class AuthDataRepository @Inject constructor(
     private val networkManager: BaseNetworkManager
 ) : AuthRepository {
 
-    override suspend fun auth(email: String, password: String): Response<Auth, Error> {
+    override suspend fun auth(email: String, password: String): Response<AuthResponse, Error> {
         return if (networkManager.isConnectedToInternet()) {
             val auth = factory.retrieveRemoteDataStore().authUser(
                 email = email,
                 password = password
             )
-            var response: Response<Auth, Error> = Response.Failure(Error.NetworkError())
+            var response: Response<AuthResponse, Error> = Response.Failure(Error.ResponseError())
             auth.handleResult(
                 stateBlock = {
                     response = it
                 },
                 successBlock = {
-                    response = Response.Success(authMapper.mapFromEntity(it))
+                    response = Response.Success(
+                        AuthResponse(
+                            auth = authMapper.mapFromEntity(it)
+                        )
+                    )
                 },
                 failureBlock = {
                     response = Response.Failure(it)
@@ -47,19 +50,27 @@ class AuthDataRepository @Inject constructor(
         }
     }
 
-    override suspend fun register(email: String, password: String): Response<Auth, Error> {
+    override suspend fun register(
+        email: String,
+        password: String
+    ): Response<RegisterResponse, Error> {
         return if (networkManager.isConnectedToInternet()) {
             val register = factory.retrieveRemoteDataStore().register(
                 email = email,
                 password = password
             )
-            var response: Response<Auth, Error> = Response.Failure(Error.NetworkError())
+            var response: Response<RegisterResponse, Error> =
+                Response.Failure(Error.ResponseError())
             register.handleResult(
                 stateBlock = {
                     response = it
                 },
                 successBlock = {
-                    response = Response.Success(authMapper.mapFromEntity(it))
+                    response = Response.Success(
+                        RegisterResponse(
+                            auth = authMapper.mapFromEntity(it)
+                        )
+                    )
                 },
                 failureBlock = {
                     response = Response.Failure(it)
@@ -71,18 +82,23 @@ class AuthDataRepository @Inject constructor(
         }
     }
 
-    override suspend fun verifyToken(token: String): Response<Auth, Error> {
+    override suspend fun verifyToken(token: String): Response<VerifyTokenResponse, Error> {
         return if (networkManager.isConnectedToInternet()) {
             val verify = factory.retrieveRemoteDataStore().verifyToken(
                 token = token
             )
-            var response: Response<Auth, Error> = Response.Failure(Error.NetworkError())
+            var response: Response<VerifyTokenResponse, Error> =
+                Response.Failure(Error.ResponseError())
             verify.handleResult(
                 stateBlock = {
                     response = it
                 },
                 successBlock = {
-                    response = Response.Success(authMapper.mapFromEntity(it))
+                    response = Response.Success(
+                        VerifyTokenResponse(
+                            auth = authMapper.mapFromEntity(it)
+                        )
+                    )
                 },
                 failureBlock = {
                     response = Response.Failure(it)
@@ -94,18 +110,23 @@ class AuthDataRepository @Inject constructor(
         }
     }
 
-    override suspend fun refreshToken(token: String): Response<Auth, Error> {
+    override suspend fun refreshToken(token: String): Response<RefreshTokenResponse, Error> {
         return if (networkManager.isConnectedToInternet()) {
             val refresh = factory.retrieveRemoteDataStore().verifyToken(
                 token = token
             )
-            var response: Response<Auth, Error> = Response.Failure(Error.NetworkError())
+            var response: Response<RefreshTokenResponse, Error> =
+                Response.Failure(Error.ResponseError())
             refresh.handleResult(
                 stateBlock = {
                     response = it
                 },
                 successBlock = {
-                    response = Response.Success(authMapper.mapFromEntity(it))
+                    response = Response.Success(
+                        RefreshTokenResponse(
+                            auth = authMapper.mapFromEntity(it)
+                        )
+                    )
                 },
                 failureBlock = {
                     response = Response.Failure(it)
@@ -117,18 +138,23 @@ class AuthDataRepository @Inject constructor(
         }
     }
 
-    override suspend fun forgetPassword(email: String): Response<Boolean, Error> {
+    override suspend fun forgetPassword(email: String): Response<ForgetPasswordResponse, Error> {
         return if (networkManager.isConnectedToInternet()) {
             val recover = factory.retrieveRemoteDataStore().recoverPassword(
                 email = email
             )
-            var response: Response<Boolean, Error> = Response.Failure(Error.NetworkError())
+            var response: Response<ForgetPasswordResponse, Error> =
+                Response.Failure(Error.ResponseError())
             recover.handleResult(
                 stateBlock = {
                     response = it
                 },
                 successBlock = {
-                    response = Response.Success(it)
+                    response = Response.Success(
+                        ForgetPasswordResponse(
+                            result = it
+                        )
+                    )
                 },
                 failureBlock = {
                     response = Response.Failure(it)
@@ -140,18 +166,22 @@ class AuthDataRepository @Inject constructor(
         }
     }
 
-    override suspend fun getUser(id: Int): Response<User, Error> {
+    override suspend fun getUser(id: Int): Response<GetUserResponse, Error> {
         return if (networkManager.isConnectedToInternet()) {
             val user = factory.retrieveRemoteDataStore().getUser(
                 id = id
             )
-            var response: Response<User, Error> = Response.Failure(Error.NetworkError())
+            var response: Response<GetUserResponse, Error> = Response.Failure(Error.ResponseError())
             user.handleResult(
                 stateBlock = {
                     response = it
                 },
                 successBlock = {
-                    response = Response.Success(userMapper.mapFromEntity(it))
+                    response = Response.Success(
+                        GetUserResponse(
+                            user = userMapper.mapFromEntity(it)
+                        )
+                    )
                 },
                 failureBlock = {
                     response = Response.Failure(it)

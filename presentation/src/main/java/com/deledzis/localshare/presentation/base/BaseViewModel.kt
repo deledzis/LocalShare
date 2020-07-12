@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.deledzis.localshare.common.usecase.Error
 import com.deledzis.localshare.common.usecase.Response
+import com.deledzis.localshare.domain.model.entity.Entity
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.channels.consumeEach
@@ -12,7 +13,7 @@ import kotlin.coroutines.CoroutineContext
 abstract class BaseViewModel : ViewModel(), CoroutineScope {
 
     private val job = Job()
-    protected abstract val receiveChannel: ReceiveChannel<Response<*, Error>>
+    protected abstract val receiveChannel: ReceiveChannel<Response<Entity, Error>>
 
     override val coroutineContext: CoroutineContext
         get() = job + Dispatchers.Main
@@ -20,7 +21,7 @@ abstract class BaseViewModel : ViewModel(), CoroutineScope {
     val loading = MutableLiveData(false)
     val loadingError = MutableLiveData(false)
 
-    abstract suspend fun resolve(value: Response<*, Error>)
+    abstract suspend fun resolve(value: Response<Entity, Error>)
 
     init {
         processStream()

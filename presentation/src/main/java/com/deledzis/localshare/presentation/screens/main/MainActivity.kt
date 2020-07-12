@@ -54,7 +54,8 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
         }
     }
 
-    private fun toSignIn() {
+    fun toSignIn() {
+        userData.saveUser(null)
         setFragment(
             signInFragment,
             SIGN_IN_FRAGMENT_TAG

@@ -21,7 +21,7 @@ interface LocationPasswordsCache {
     /**
      * Delete an existing instance of [LocationPasswordEntity] from cache.
      */
-    suspend fun deleteLocationPassword(id: Int): Int
+    suspend fun deleteLocationPassword(password: String): Int
 
     /**
      * Clear all [LocationPasswordEntity] from the cache
@@ -32,6 +32,11 @@ interface LocationPasswordsCache {
      * Save a given list of [LocationPasswordEntity] to the cache
      */
     suspend fun saveLocationPasswords(locationPasswords: List<LocationPasswordEntity>)
+
+    /**
+     * Save an instance of [LocationPasswordEntity] to the cache
+     */
+    suspend fun saveLocationPassword(locationPassword: LocationPasswordEntity)
 
     /**
      * Checks if an element [LocationPasswordEntity] exists in the cache.
