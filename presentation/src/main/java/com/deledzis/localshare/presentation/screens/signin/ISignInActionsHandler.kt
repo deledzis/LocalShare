@@ -1,7 +1,9 @@
 package com.deledzis.localshare.presentation.screens.signin
 
-interface ISignInActionsHandler {
-    fun handleForgetPasswordClicked()
+import android.view.View
 
-    fun handleRegisterClicked()
+interface ISignInActionsHandler {
+    fun handleForgetPasswordClicked(view: View)
+
+    fun handleRegisterClicked(view: View)
 }

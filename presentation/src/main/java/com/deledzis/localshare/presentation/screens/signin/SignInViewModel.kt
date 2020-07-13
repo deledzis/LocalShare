@@ -3,6 +3,7 @@ package com.deledzis.localshare.presentation.screens.signin
 import androidx.lifecycle.MutableLiveData
 import com.deledzis.localshare.common.usecase.Error
 import com.deledzis.localshare.common.usecase.Response
+import com.deledzis.localshare.domain.model.BaseUserData
 import com.deledzis.localshare.domain.model.User
 import com.deledzis.localshare.domain.model.entity.Entity
 import com.deledzis.localshare.domain.model.entity.auth.AuthResponse
@@ -20,7 +21,8 @@ import javax.inject.Inject
 
 class SignInViewModel @Inject constructor(
     private val authUserUseCase: AuthUserUseCase,
-    private val getUserUseCase: GetUserUseCase
+    private val getUserUseCase: GetUserUseCase,
+    private val userData: BaseUserData
 ) : BaseViewModel() {
 
     override val receiveChannel: ReceiveChannel<Response<Entity, Error>>
@@ -49,7 +51,7 @@ class SignInViewModel @Inject constructor(
 
     private var _token = MutableLiveData<String>()
 
-    private var _user = MutableLiveData<User>()
+    private var _user = MutableLiveData<User>(userData.getUser())
     val user = _user
 
     override suspend fun resolve(value: Response<Entity, Error>) {

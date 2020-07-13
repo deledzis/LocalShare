@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/trackPasswordsFragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_radar"
+        android:title="@string/header_track_passwords" />
+
+    <item
+        android:id="@+id/locationPasswordsFragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_home"
+        android:title="@string/header_my_passwords" />
+
+    <item
+        android:id="@+id/settingsFragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/header_settings" />
+
+</menu>

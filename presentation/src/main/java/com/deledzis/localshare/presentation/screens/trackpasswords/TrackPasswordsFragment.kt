@@ -1,4 +1,4 @@
-package com.deledzis.localshare.presentation.screens.locationpasswords
+package com.deledzis.localshare.presentation.screens.trackpasswords
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,27 +14,27 @@ import com.deledzis.localshare.infrastructure.extensions.injectViewModel
 import com.deledzis.localshare.presentation.R
 import com.deledzis.localshare.presentation.base.BaseFragment
 import com.deledzis.localshare.presentation.base.UserViewModel
-import com.deledzis.localshare.presentation.databinding.FragmentLocationPasswordsBinding
+import com.deledzis.localshare.presentation.databinding.FragmentTrackPasswordsBinding
 import javax.inject.Inject
 
-class LocationPasswordsFragment : BaseFragment<LocationPasswordsViewModel>(),
+class TrackPasswordsFragment : BaseFragment<TrackPasswordsViewModel>(),
     SwipeRefreshLayout.OnRefreshListener {
 
-    private lateinit var dataBinding: FragmentLocationPasswordsBinding
+    private lateinit var dataBinding: FragmentTrackPasswordsBinding
 
     @Inject
     lateinit var userViewModel: UserViewModel
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    private lateinit var locationPasswordsViewModel: LocationPasswordsViewModel
+    private lateinit var trackPasswordsViewModel: TrackPasswordsViewModel
 
     @Inject
-    lateinit var adapter: LocationPasswordsAdapter
+    lateinit var adapter: TrackPasswordsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        locationPasswordsViewModel = injectViewModel(viewModelFactory)
+        trackPasswordsViewModel = injectViewModel(viewModelFactory)
     }
 
     override fun onCreateView(
@@ -44,13 +44,13 @@ class LocationPasswordsFragment : BaseFragment<LocationPasswordsViewModel>(),
     ): View? {
         dataBinding = DataBindingUtil.inflate(
             inflater,
-            R.layout.fragment_location_passwords,
+            R.layout.fragment_track_passwords,
             container,
             false
         )
         dataBinding.lifecycleOwner = viewLifecycleOwner
-        dataBinding.viewModel = locationPasswordsViewModel
-        dataBinding.handler = locationPasswordsViewModel
+        dataBinding.viewModel = trackPasswordsViewModel
+        dataBinding.handler = trackPasswordsViewModel
 
         return dataBinding.root
     }
@@ -61,36 +61,36 @@ class LocationPasswordsFragment : BaseFragment<LocationPasswordsViewModel>(),
         with(dataBinding) {
             rvLocationPasswords.layoutManager = LinearLayoutManager(activity)
             rvLocationPasswords.adapter = adapter
-            layoutEmptyState.handler = locationPasswordsViewModel
-            srl.setOnRefreshListener(this@LocationPasswordsFragment)
+            layoutEmptyState.handler = trackPasswordsViewModel
+            srl.setOnRefreshListener(this@TrackPasswordsFragment)
         }
 
-        adapter.listener = locationPasswordsViewModel
+        adapter.listener = trackPasswordsViewModel
     }
 
     override fun bindObservers() {
-        locationPasswordsViewModel.fetchData()
+        trackPasswordsViewModel.fetchData()
         userViewModel.user.observe(this, Observer {
             if (it == null) {
                 findNavController().navigate(R.id.signInFragment)
             }
         })
-        locationPasswordsViewModel.locationPasswords.observe(this, Observer {
+        trackPasswordsViewModel.locationPasswords.observe(this, Observer {
             dataBinding.srl.isRefreshing = false
             adapter.locationPasswords = it ?: return@Observer
             adapter.notifyDataSetChanged()
         })
-        locationPasswordsViewModel.locationPasswordUpdate.observe(this, Observer {
+        trackPasswordsViewModel.locationPasswordUpdate.observe(this, Observer {
             dataBinding.srl.isRefreshing = false
             adapter.notifyItemChanged(it.second)
         })
-        locationPasswordsViewModel.error.observe(this, Observer {
+        trackPasswordsViewModel.error.observe(this, Observer {
             dataBinding.srl.isRefreshing = false
             if (!it.isNullOrBlank()) {
 //                displayErrorToast(message = it)
             }
         })
-        locationPasswordsViewModel.userError.observe(this, Observer {
+        trackPasswordsViewModel.userError.observe(this, Observer {
             dataBinding.srl.isRefreshing = false
             if (it) {
                 // TODO: logout user and navigate back to sign in
@@ -100,6 +100,6 @@ class LocationPasswordsFragment : BaseFragment<LocationPasswordsViewModel>(),
     }
 
     override fun onRefresh() {
-        locationPasswordsViewModel.refreshLocationPasswords()
+        trackPasswordsViewModel.refreshLocationPasswords()
     }
 }

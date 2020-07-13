@@ -16,7 +16,9 @@ abstract class MainActivityBuilder {
             SignInFragmentBuilder::class,
             ForgetPasswordFragmentBuilder::class,
             RegisterFragmentBuilder::class,
-            LocationPasswordsFragmentBuilder::class
+            TrackPasswordsFragmentBuilder::class,
+            LocationPasswordsFragmentBuilder::class,
+            SettingsFragmentBuilder::class
         ]
     )
     abstract fun contributeMainActivity(): MainActivity
