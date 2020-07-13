@@ -5,8 +5,10 @@ import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.widget.Toast
+import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
 
-fun Context.drawableCompatFrom(drawableId: Int): Drawable {
+fun Context.drawableCompatFrom(@DrawableRes drawableId: Int): Drawable {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
         this.resources.getDrawable(drawableId, this.theme)
     } else {
@@ -15,7 +17,7 @@ fun Context.drawableCompatFrom(drawableId: Int): Drawable {
     }
 }
 
-fun Context.colorFrom(colorId: Int): Int {
+fun Context.colorFrom(@ColorRes colorId: Int): Int {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         this.resources.getColor(colorId, this.theme)
     } else {
@@ -24,7 +26,7 @@ fun Context.colorFrom(colorId: Int): Int {
     }
 }
 
-fun Context.colorStateListFrom(colorId: Int): ColorStateList {
+fun Context.colorStateListFrom(@ColorRes colorId: Int): ColorStateList {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         this.resources.getColorStateList(colorId, this.theme)
     } else {

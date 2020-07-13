@@ -58,8 +58,8 @@ android {
 
         defaultConfig {
             applicationId "com.deledzis.localshare"
-            minSdkVersion 21
-            targetSdkVersion 29
+            minSdkVersion globalConfiguration["android_min_sdk_version"]
+            targetSdkVersion globalConfiguration["android_target_sdk_version"]
             versionCode versionNumber
             versionName "${versionMajor}.${versionMinor}.${versionPatch}.${versionBuild}"
             testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

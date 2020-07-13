@@ -9,8 +9,7 @@
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="colorAccent">@color/accent</item>
         <item name="colorControlActivated">@color/text</item>
-        <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowTranslucentNavigation">false</item>
+        <item name="android:windowFullscreen">false</item>
         <item name="android:windowBackground">@color/primary_dark</item>
     </style>
 
@@ -24,8 +23,10 @@
 
     <style name="TextView.Header1">
         <item name="android:layout_marginStart">@dimen/size_32dp</item>
+        <item name="android:layout_marginLeft">@dimen/size_32dp</item>
         <item name="android:layout_marginTop">@dimen/size_64dp</item>
         <item name="android:layout_marginEnd">@dimen/size_32dp</item>
+        <item name="android:layout_marginRight">@dimen/size_32dp</item>
         <item name="android:fontFamily">@font/sf_bold</item>
         <item name="android:textColor">@color/text</item>
         <item name="android:textSize">@dimen/size_42sp</item>
@@ -33,8 +34,10 @@
 
     <style name="TextView.Header2">
         <item name="android:layout_marginStart">@dimen/size_32dp</item>
+        <item name="android:layout_marginLeft">@dimen/size_32dp</item>
         <item name="android:layout_marginTop">@dimen/size_32dp</item>
         <item name="android:layout_marginEnd">@dimen/size_32dp</item>
+        <item name="android:layout_marginRight">@dimen/size_32dp</item>
         <item name="android:fontFamily">@font/sf_bold</item>
         <item name="android:textColor">@color/text</item>
         <item name="android:textSize">@dimen/size_24sp</item>
@@ -64,7 +67,9 @@
     <style name="EditText">
         <item name="android:paddingTop">@dimen/size_28dp</item>
         <item name="android:paddingStart">@dimen/size_0dp</item>
+        <item name="android:paddingLeft">@dimen/size_0dp</item>
         <item name="android:paddingEnd">@dimen/size_16dp</item>
+        <item name="android:paddingRight">@dimen/size_16dp</item>
         <item name="android:paddingBottom">@dimen/size_4dp</item>
         <item name="android:background">@color/transparent</item>
         <item name="android:maxLines">1</item>
@@ -142,6 +147,8 @@
     <style name="Button.Text.Error" parent="Button.Text">
         <item name="android:textColor">@color/text_error</item>
         <item name="android:textSize">@dimen/size_18sp</item>
+        <item name="android:paddingTop">@dimen/size_16dp</item>
+        <item name="android:paddingBottom">@dimen/size_16dp</item>
     </style>
 
 </resources>
