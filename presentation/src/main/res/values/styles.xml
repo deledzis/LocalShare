@@ -10,7 +10,7 @@
         <item name="colorAccent">@color/accent</item>
         <item name="colorControlActivated">@color/text</item>
         <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowTranslucentNavigation">false</item>
         <item name="android:windowBackground">@color/primary_dark</item>
     </style>
 
@@ -137,6 +137,11 @@
         <item name="rippleColor">@color/primary</item>
         <item name="cornerRadius">@dimen/size_8dp</item>
         <item name="elevation">@dimen/size_0dp</item>
+    </style>
+
+    <style name="Button.Text.Error" parent="Button.Text">
+        <item name="android:textColor">@color/text_error</item>
+        <item name="android:textSize">@dimen/size_18sp</item>
     </style>
 
 </resources>

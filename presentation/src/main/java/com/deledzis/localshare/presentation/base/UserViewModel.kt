@@ -1,4 +1,4 @@
-package com.deledzis.localshare.presentation.screens.main
+package com.deledzis.localshare.presentation.base
 
 import androidx.lifecycle.MutableLiveData
 import com.deledzis.localshare.common.usecase.Error
@@ -6,12 +6,13 @@ import com.deledzis.localshare.common.usecase.Response
 import com.deledzis.localshare.domain.model.BaseUserData
 import com.deledzis.localshare.domain.model.User
 import com.deledzis.localshare.domain.model.entity.Entity
-import com.deledzis.localshare.presentation.base.BaseViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ReceiveChannel
 import javax.inject.Inject
+import javax.inject.Singleton
 
-class MainActivityViewModel @Inject constructor(
+@Singleton
+open class UserViewModel @Inject constructor(
     private val userData: BaseUserData
 ) : BaseViewModel() {
 
@@ -21,4 +22,9 @@ class MainActivityViewModel @Inject constructor(
     var user = MutableLiveData<User>(userData.getUser())
 
     override suspend fun resolve(value: Response<Entity, Error>) {}
+
+    fun saveUser(user: User?) {
+        this.user.postValue(user)
+        userData.saveUser(user)
+    }
 }

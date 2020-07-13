@@ -8,7 +8,9 @@ import com.deledzis.localshare.presentation.screens.forgetpassword.ForgetPasswor
 import com.deledzis.localshare.presentation.screens.locationpasswords.LocationPasswordsViewModel
 import com.deledzis.localshare.presentation.screens.main.MainActivityViewModel
 import com.deledzis.localshare.presentation.screens.register.RegisterViewModel
+import com.deledzis.localshare.presentation.screens.settings.SettingsViewModel
 import com.deledzis.localshare.presentation.screens.signin.SignInViewModel
+import com.deledzis.localshare.presentation.screens.trackpasswords.TrackPasswordsViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -41,7 +43,17 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
+    @ViewModelKey(TrackPasswordsViewModel::class)
+    internal abstract fun bindTrackPasswordsViewModel(viewModel: TrackPasswordsViewModel): ViewModel
+
+    @Binds
+    @IntoMap
     @ViewModelKey(LocationPasswordsViewModel::class)
     internal abstract fun bindLocationPasswordsViewModel(viewModel: LocationPasswordsViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SettingsViewModel::class)
+    internal abstract fun bindSettingsViewModel(viewModel: SettingsViewModel): ViewModel
 
 }

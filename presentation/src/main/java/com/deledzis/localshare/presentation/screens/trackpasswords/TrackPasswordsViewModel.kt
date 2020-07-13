@@ -1,4 +1,4 @@
-package com.deledzis.localshare.presentation.screens.locationpasswords
+package com.deledzis.localshare.presentation.screens.trackpasswords
 
 import androidx.lifecycle.MutableLiveData
 import com.deledzis.localshare.common.usecase.Error
@@ -19,13 +19,13 @@ import kotlinx.coroutines.channels.ReceiveChannel
 import timber.log.Timber
 import javax.inject.Inject
 
-class LocationPasswordsViewModel @Inject constructor(
+class TrackPasswordsViewModel @Inject constructor(
     private val getLocationPasswordsUseCase: GetLocationPasswordsUseCase,
     private val updateLocationPasswordUseCase: UpdateLocationPasswordUseCase,
     private val saveLocationPasswordsUseCase: SaveLocationPasswordsUseCase,
     private val addLocationPasswordUseCase: AddLocationPasswordUseCase,
     private val userData: BaseUserData
-) : BaseViewModel(), ILocationPasswordActionsHandler {
+) : BaseViewModel(), ITrackPasswordActionsHandler {
     override val receiveChannel: ReceiveChannel<Response<Entity, Error>>
         get() = mergeChannels(
             getLocationPasswordsUseCase.receiveChannel,
@@ -45,6 +45,7 @@ class LocationPasswordsViewModel @Inject constructor(
 
     private var _locationPasswordUpdate = MutableLiveData<Pair<LocationPassword, Int>>()
     val locationPasswordUpdate = _locationPasswordUpdate
+
 
     fun fetchData() {
         userData.getUser()?.let {
@@ -119,7 +120,7 @@ class LocationPasswordsViewModel @Inject constructor(
     }
 
     private suspend fun handleFailure(error: Error) {
-        Timber.e("Handle Failure: ${error.exception}")
+//        Timber.e("Handle Failure: ${error.exception}")
         _error.postValue(error.exception?.message)
         if (_locationPasswords.value == null) {
             _locationPasswords.postValue(emptyList())
@@ -148,12 +149,6 @@ class LocationPasswordsViewModel @Inject constructor(
         } ?: _userError.postValue(true)
     }
 
-    override fun handleActiveTrigger(password: LocationPassword, position: Int) {
-        password.active = !password.active
-        updateLocationPasswordUseCase(password)
-        _locationPasswordUpdate.postValue(password to position)
-    }
-
     override fun handleOnClick(password: LocationPassword, position: Int) {
 
     }
@@ -176,7 +171,7 @@ class LocationPasswordsViewModel @Inject constructor(
     }
 
     private fun generateMockLocationPassword(): LocationPassword {
-        val charPool: List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
+        val charPool : List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
         val password = (1..32)
             .map { (charPool.indices).random() }
             .map(charPool::get)

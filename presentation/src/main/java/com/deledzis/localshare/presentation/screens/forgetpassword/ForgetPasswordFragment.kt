@@ -4,9 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.addCallback
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.deledzis.localshare.infrastructure.extensions.injectViewModel
 import com.deledzis.localshare.presentation.R
 import com.deledzis.localshare.presentation.base.BaseFragment
@@ -18,6 +21,8 @@ class ForgetPasswordFragment @Inject constructor() : BaseFragment<ForgetPassword
 
     private lateinit var dataBinding: FragmentForgetPasswordBinding
 
+    private lateinit var backPressedCallback: OnBackPressedCallback
+
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var forgetPasswordViewModel: ForgetPasswordViewModel
@@ -25,6 +30,9 @@ class ForgetPasswordFragment @Inject constructor() : BaseFragment<ForgetPassword
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         forgetPasswordViewModel = injectViewModel(viewModelFactory)
+        backPressedCallback = requireActivity().onBackPressedDispatcher.addCallback {
+            findNavController().popBackStack(R.id.signInFragment, false)
+        }
     }
 
     override fun onCreateView(
@@ -46,7 +54,7 @@ class ForgetPasswordFragment @Inject constructor() : BaseFragment<ForgetPassword
     }
 
     override fun handleBackClicked() {
-        activity.onBackPressed()
+        findNavController().popBackStack(R.id.signInFragment, false)
     }
 
     override fun bindObservers() {
@@ -62,5 +70,10 @@ class ForgetPasswordFragment @Inject constructor() : BaseFragment<ForgetPassword
                 displayErrorToast(message = it)
             }
         })
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        backPressedCallback.remove()
     }
 }

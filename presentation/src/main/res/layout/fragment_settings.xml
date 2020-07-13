@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.deledzis.localshare.presentation.screens.settings.SettingsViewModel" />
+
+        <variable
+            name="controller"
+            type="com.deledzis.localshare.presentation.screens.settings.ISettingsActionsHandler" />
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        android:background="@color/background">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/size_32dp">
+
+            <TextView
+                android:id="@+id/tv_welcome"
+                style="@style/TextView.Header1"
+                android:layout_width="@dimen/size_0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/header_settings"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size_10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_welcome">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_forget_password"
+                    style="@style/Button.Text.Error"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:layout_marginStart="@dimen/size_32dp"
+                    android:layout_marginTop="@dimen/size_8dp"
+                    android:layout_marginEnd="@dimen/size_32dp"
+                    android:onClick="@{controller::handleLogoutClicked}"
+                    android:text="@string/btn_logout" />
+
+            </FrameLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</layout>

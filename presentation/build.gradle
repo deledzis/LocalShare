@@ -2,6 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: "androidx.navigation.safeargs.kotlin"
 
 android {
     def globalConfiguration = rootProject.extensions.getByName("ext")
@@ -68,13 +69,18 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$appcompat_version"
     implementation "androidx.core:core-ktx:$core_ktx_version"
     implementation "androidx.constraintlayout:constraintlayout:$constraint_version"
-    api "androidx.swiperefreshlayout:swiperefreshlayout:$swiperefresh_version"
     implementation "android.arch.lifecycle:extensions:$arch_lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    implementation "androidx.recyclerview:recyclerview:$recyclerview_version"
     implementation "androidx.multidex:multidex:$multidex_version"
     implementation "com.google.android.material:material:$material_version"
+    api "androidx.swiperefreshlayout:swiperefreshlayout:$swiperefresh_version"
+
+    /* Navigation component dependencies */
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
 
     /* Javax dependencies */
     api "javax.annotation:jsr250-api:$javax_annotation_version"

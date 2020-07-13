@@ -6,7 +6,6 @@ import android.view.Gravity
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModel
 import androidx.transition.Slide
 import com.deledzis.localshare.infrastructure.util.log.Loggable
@@ -22,7 +21,6 @@ import javax.inject.Inject
 abstract class BaseFragment<T : ViewModel> : DaggerFragment(),
     Loggable {
     protected lateinit var activity: MainActivity
-    protected lateinit var fm: FragmentManager
 
     @Inject
     protected lateinit var applicationContext: Context
@@ -35,7 +33,6 @@ abstract class BaseFragment<T : ViewModel> : DaggerFragment(),
         enterTransition = Slide(Gravity.END)
 
         activity = context as MainActivity
-        fm = childFragmentManager
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
