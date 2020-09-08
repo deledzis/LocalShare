@@ -8,28 +8,27 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import com.deledzis.localshare.presentation.R
 import com.deledzis.localshare.presentation.base.BaseActivity
-import com.deledzis.localshare.presentation.base.UserViewModel
 import com.deledzis.localshare.presentation.databinding.ActivityMainBinding
-import com.deledzis.localshare.presentation.screens.locationpasswords.LocationPasswordsFragment
-import com.deledzis.localshare.presentation.screens.signin.SignInFragment
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class MainActivity : BaseActivity<UserViewModel>() {
 
     private lateinit var dataBinding: ActivityMainBinding
+    private lateinit var navHostFragment: NavHostFragment
 
     @Inject
     lateinit var userViewModel: UserViewModel
 
     @Inject
-    lateinit var signInFragment: SignInFragment
-
-    @Inject
-    lateinit var locationPasswordsFragment: LocationPasswordsFragment
+    lateinit var mainActivityViewModel: MainActivityViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
@@ -43,14 +42,41 @@ class MainActivity : BaseActivity<UserViewModel>() {
 
         dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         dataBinding.lifecycleOwner = this
-        dataBinding.viewModel = userViewModel
+        dataBinding.viewModel = mainActivityViewModel
+        dataBinding.userViewModel = userViewModel
+
+
+        navHostFragment = supportFragmentManager.findFragmentById(
+            R.id.nav_host_fragment
+        ) as NavHostFragment
 
         val bottomNavigationView = dataBinding.bottomNav
-
-        val navHostFragment = supportFragmentManager
-            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-
         NavigationUI.setupWithNavController(bottomNavigationView, navHostFragment.navController)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mainActivityViewModel.inTopLevelFragment.observe(this, Observer {
+            if (it.first && it.second == null) {
+                // hide toolbar
+                setSupportActionBar(null)
+            } else {
+                val appBarConfiguration = AppBarConfiguration(
+                    setOf(
+                        R.id.locationPasswordsFragment,
+                        R.id.trackingPasswordsFragment,
+                        R.id.settingsFragment
+                    )
+                )
+                // show toolbar
+                setSupportActionBar(it.second)
+                NavigationUI.setupWithNavController(
+                    it.second!!,
+                    navHostFragment.navController,
+                    appBarConfiguration
+                )
+            }
+        })
     }
 
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {

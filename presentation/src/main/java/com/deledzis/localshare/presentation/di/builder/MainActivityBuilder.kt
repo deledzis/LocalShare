@@ -1,7 +1,7 @@
 package com.deledzis.localshare.presentation.di.builder
 
 import com.deledzis.localshare.common.di.scopes.ActivityScope
-import com.deledzis.localshare.presentation.di.module.FragmentsModule
+import com.deledzis.localshare.presentation.di.module.NavHostModule
 import com.deledzis.localshare.presentation.screens.main.MainActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -12,13 +12,7 @@ abstract class MainActivityBuilder {
     @ActivityScope
     @ContributesAndroidInjector(
         modules = [
-            FragmentsModule::class,
-            SignInFragmentBuilder::class,
-            ForgetPasswordFragmentBuilder::class,
-            RegisterFragmentBuilder::class,
-            TrackPasswordsFragmentBuilder::class,
-            LocationPasswordsFragmentBuilder::class,
-            SettingsFragmentBuilder::class
+            NavHostModule::class
         ]
     )
     abstract fun contributeMainActivity(): MainActivity

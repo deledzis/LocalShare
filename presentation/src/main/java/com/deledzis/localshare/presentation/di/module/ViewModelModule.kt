@@ -6,11 +6,16 @@ import com.deledzis.localshare.presentation.base.ViewModelFactory
 import com.deledzis.localshare.presentation.di.key.ViewModelKey
 import com.deledzis.localshare.presentation.screens.forgetpassword.ForgetPasswordViewModel
 import com.deledzis.localshare.presentation.screens.locationpasswords.LocationPasswordsViewModel
+import com.deledzis.localshare.presentation.screens.locationpasswords.add.AddLocationPasswordViewModel
+import com.deledzis.localshare.presentation.screens.locationpasswords.edit.EditLocationPasswordViewModel
 import com.deledzis.localshare.presentation.screens.main.MainActivityViewModel
 import com.deledzis.localshare.presentation.screens.register.RegisterViewModel
 import com.deledzis.localshare.presentation.screens.settings.SettingsViewModel
 import com.deledzis.localshare.presentation.screens.signin.SignInViewModel
-import com.deledzis.localshare.presentation.screens.trackpasswords.TrackPasswordsViewModel
+import com.deledzis.localshare.presentation.screens.trackingpassword.TrackingPasswordViewModel
+import com.deledzis.localshare.presentation.screens.trackingpasswords.TrackingPasswordsViewModel
+import com.deledzis.localshare.presentation.screens.trackingpasswords.add.AddTrackingPasswordViewModel
+import com.deledzis.localshare.presentation.screens.trackingpasswords.edit.EditTrackingPasswordViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -43,13 +48,38 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(TrackPasswordsViewModel::class)
-    internal abstract fun bindTrackPasswordsViewModel(viewModel: TrackPasswordsViewModel): ViewModel
+    @ViewModelKey(TrackingPasswordsViewModel::class)
+    internal abstract fun bindTrackingPasswordsViewModel(viewModel: TrackingPasswordsViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(AddTrackingPasswordViewModel::class)
+    internal abstract fun bindAddTrackingPasswordViewModel(viewModel: AddTrackingPasswordViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(EditTrackingPasswordViewModel::class)
+    internal abstract fun bindEditTrackingPasswordViewModel(viewModel: EditTrackingPasswordViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(TrackingPasswordViewModel::class)
+    internal abstract fun bindTrackingPasswordViewModel(viewModel: TrackingPasswordViewModel): ViewModel
 
     @Binds
     @IntoMap
     @ViewModelKey(LocationPasswordsViewModel::class)
     internal abstract fun bindLocationPasswordsViewModel(viewModel: LocationPasswordsViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(AddLocationPasswordViewModel::class)
+    internal abstract fun bindAddLocationPasswordViewModel(viewModel: AddLocationPasswordViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(EditLocationPasswordViewModel::class)
+    internal abstract fun bindEditLocationPasswordViewModel(viewModel: EditLocationPasswordViewModel): ViewModel
 
     @Binds
     @IntoMap

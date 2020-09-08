@@ -3,7 +3,7 @@ package com.deledzis.localshare.domain.repository
 import com.deledzis.localshare.common.usecase.Error
 import com.deledzis.localshare.common.usecase.Response
 import com.deledzis.localshare.domain.model.LocationPassword
-import com.deledzis.localshare.domain.model.entity.locationpassword.*
+import com.deledzis.localshare.domain.model.response.locationpasswords.*
 
 /**
  * Interface defining methods for how the Data layer can pass data to and from the Domain layer.

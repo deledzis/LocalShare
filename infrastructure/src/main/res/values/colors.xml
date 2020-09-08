@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="text">@color/gray_100</color>
+
+    <color name="toast_info">#319768</color>
+    <color name="toast_warning">#AB8A10</color>
+    <color name="toast_error">#AA3A3D</color>
+
     <color name="white_100">#FFFFFFFF</color>
+    <color name="gray_100">#E1E3E6</color>
 </resources>

@@ -93,7 +93,9 @@ dependencies {
     }
 
     /* OkHttp3 dependencies */
-    implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
+    implementation ("com.squareup.okhttp3:okhttp:$okhttp_version") {
+        force = true //API 19 support
+    }
 
     /* Logging dependencies */
     implementation "com.jakewharton.timber:timber:$timber_version"

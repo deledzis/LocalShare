@@ -6,15 +6,16 @@ import com.deledzis.localshare.common.usecase.Response
 import com.deledzis.localshare.domain.model.BaseUserData
 import com.deledzis.localshare.domain.model.User
 import com.deledzis.localshare.domain.model.entity.Entity
-import com.deledzis.localshare.domain.model.entity.auth.AuthResponse
-import com.deledzis.localshare.domain.model.entity.auth.GetUserResponse
-import com.deledzis.localshare.domain.model.request.RegisterUserRequest
+import com.deledzis.localshare.domain.model.request.auth.RegisterUserRequest
+import com.deledzis.localshare.domain.model.response.auth.AuthResponse
+import com.deledzis.localshare.domain.model.response.auth.GetUserResponse
 import com.deledzis.localshare.domain.usecase.auth.GetUserUseCase
 import com.deledzis.localshare.domain.usecase.auth.RegisterUserUseCase
 import com.deledzis.localshare.infrastructure.extensions.mergeChannels
 import com.deledzis.localshare.infrastructure.util.isDebug
 import com.deledzis.localshare.presentation.base.BaseViewModel
 import kotlinx.coroutines.channels.ReceiveChannel
+import timber.log.Timber
 import javax.inject.Inject
 
 class RegisterViewModel @Inject constructor(
@@ -58,6 +59,7 @@ class RegisterViewModel @Inject constructor(
     }
 
     private suspend fun handleSuccess(data: Any?) {
+        Timber.i("Handle Success: $data")
         if (data !is Entity) {
             handleAuthEmptyResponse(email = email.value!!)
             return
@@ -74,6 +76,7 @@ class RegisterViewModel @Inject constructor(
     }
 
     private suspend fun handleFailure(error: Error) {
+        Timber.e("Handle Failure: ${error.exception}")
         _error.postValue(error.exception?.message)
         handleAuthEmptyResponse(email = email.value!!)
     }
@@ -96,12 +99,10 @@ class RegisterViewModel @Inject constructor(
 
         if (email.value.isNullOrBlank()) {
             _emailError.postValue("Введите E-mail")
-            stopLoading()
             return
         }
         if (password.value.isNullOrBlank()) {
             _passwordError.postValue("Введите пароль")
-            stopLoading()
             return
         }
 

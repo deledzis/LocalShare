@@ -8,6 +8,7 @@ import com.deledzis.localshare.domain.model.entity.Entity
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.channels.consumeEach
+import timber.log.Timber
 import kotlin.coroutines.CoroutineContext
 
 abstract class BaseViewModel : ViewModel(), CoroutineScope {
@@ -46,6 +47,7 @@ abstract class BaseViewModel : ViewModel(), CoroutineScope {
     }
 
     override fun onCleared() {
+        Timber.d("onCleared: $this")
         receiveChannel.cancel()
         coroutineContext.cancel()
         stopLoading()

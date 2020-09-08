@@ -14,20 +14,20 @@ class TokenInterceptor @Inject constructor() : Interceptor {
         val original = chain.request()
 
         // for auth
-        if (original.url.encodedPath.contains("/auth") &&
-            original.method.toUpperCase(Locale.getDefault()) == "POST"
+        if (original.url().encodedPath().contains("/auth") &&
+            original.method().toUpperCase(Locale.getDefault()) == "POST"
         ) {
             return chain.proceed(original)
         }
 
         // for password recovery
-        if (original.url.encodedPath.contains("/remember_password") &&
-            original.method.toUpperCase(Locale.getDefault()) == "POST"
+        if (original.url().encodedPath().contains("/remember_password") &&
+            original.method().toUpperCase(Locale.getDefault()) == "POST"
         ) {
             return chain.proceed(original)
         }
 
-        val originalHttpUrl = original.url
+        val originalHttpUrl = original.url()
         val requestBuilder = original.newBuilder()
             .addHeader("Authorization", "JWT $token")
             .url(originalHttpUrl)

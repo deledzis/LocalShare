@@ -9,7 +9,7 @@ buildscript {
     }
 
     dependencies {
-        def gradle_version = '4.0.0'
+        def gradle_version = '4.0.1'
         classpath "com.android.tools.build:gradle:$gradle_version"
 
         def kotlin_version = '1.3.72'
@@ -20,9 +20,6 @@ buildscript {
 
         def firebase_crashlytics_version = '2.0.0-beta02'
         classpath "com.google.firebase:firebase-crashlytics-gradle:$firebase_crashlytics_version"
-
-//        def firebase_perf_plugin_version = '1.3.1'
-//        classpath "com.google.firebase:perf-plugin:$firebase_perf_plugin_version"
 
         def navigation_safe_args_plugin_version = '2.2.1'
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigation_safe_args_plugin_version"

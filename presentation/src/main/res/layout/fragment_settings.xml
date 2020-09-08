@@ -35,27 +35,20 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <FrameLayout
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_forget_password"
+                style="@style/Button.Text.Error"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/size_10dp"
+                android:layout_marginStart="@dimen/size_32dp"
+                android:layout_marginTop="@dimen/size_32dp"
+                android:layout_marginEnd="@dimen/size_32dp"
+                android:onClick="@{controller::handleLogoutClicked}"
+                android:text="@string/btn_logout"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_welcome">
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_forget_password"
-                    style="@style/Button.Text.Error"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|center_horizontal"
-                    android:layout_marginStart="@dimen/size_32dp"
-                    android:layout_marginTop="@dimen/size_8dp"
-                    android:layout_marginEnd="@dimen/size_32dp"
-                    android:onClick="@{controller::handleLogoutClicked}"
-                    android:text="@string/btn_logout" />
-
-            </FrameLayout>
+                app:layout_constraintTop_toBottomOf="@id/tv_welcome" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

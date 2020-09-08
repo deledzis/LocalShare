@@ -6,7 +6,7 @@ import com.deledzis.localshare.data.model.AuthEntity
 import com.deledzis.localshare.data.model.UserEntity
 import com.deledzis.localshare.data.repository.auth.AuthDataStore
 import com.deledzis.localshare.data.repository.auth.AuthRemote
-import com.deledzis.localshare.data.repository.locationpassword.LocationPasswordsDataStore
+import com.deledzis.localshare.data.repository.locationpasswords.LocationPasswordsDataStore
 import javax.inject.Inject
 
 /**

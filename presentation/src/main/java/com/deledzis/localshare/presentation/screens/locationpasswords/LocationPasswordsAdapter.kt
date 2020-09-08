@@ -9,8 +9,10 @@ import com.deledzis.localshare.infrastructure.extensions.autoNotify
 import com.deledzis.localshare.presentation.R
 import com.deledzis.localshare.presentation.databinding.ItemLocationPasswordBinding
 import javax.inject.Inject
+import javax.inject.Singleton
 import kotlin.properties.Delegates
 
+@Singleton
 class LocationPasswordsAdapter @Inject constructor() :
     RecyclerView.Adapter<LocationPasswordsAdapter.ViewHolder>() {
 
@@ -48,7 +50,7 @@ class LocationPasswordsAdapter @Inject constructor() :
         fun bind(item: LocationPassword, pos: Int) = with(binding) {
             password = item
             position = pos
-            viewModel = listener
+            controller = listener
         }
     }
 }

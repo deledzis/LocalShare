@@ -20,7 +20,9 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxkotlin:$rxkotlin_version"
 
     /* OkHttp3 dependencies */
-    api "com.squareup.okhttp3:okhttp:$okhttp_version"
+    api("com.squareup.okhttp3:okhttp:$okhttp_version") {
+        force = true //API 19 support
+    }
     api "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
 
     /* Retrofit2 dependencies */

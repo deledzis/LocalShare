@@ -10,14 +10,22 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.deledzis.localshare.domain.model.entity.CloseAddLocationPasswordAction
+import com.deledzis.localshare.domain.model.entity.CloseEditLocationPasswordAction
+import com.deledzis.localshare.domain.model.entity.ShowAddLocationPasswordAction
+import com.deledzis.localshare.domain.model.entity.ShowEditLocationPasswordAction
 import com.deledzis.localshare.infrastructure.extensions.injectViewModel
 import com.deledzis.localshare.presentation.R
 import com.deledzis.localshare.presentation.base.BaseFragment
-import com.deledzis.localshare.presentation.base.UserViewModel
 import com.deledzis.localshare.presentation.databinding.FragmentLocationPasswordsBinding
+import com.deledzis.localshare.presentation.screens.locationpasswords.add.AddLocationPasswordFragment
+import com.deledzis.localshare.presentation.screens.locationpasswords.edit.EditLocationPasswordFragment
+import com.deledzis.localshare.presentation.screens.main.UserViewModel
 import javax.inject.Inject
+import javax.inject.Singleton
 
-class LocationPasswordsFragment : BaseFragment<LocationPasswordsViewModel>(),
+@Singleton
+class LocationPasswordsFragment @Inject constructor() : BaseFragment<LocationPasswordsViewModel>(),
     SwipeRefreshLayout.OnRefreshListener {
 
     private lateinit var dataBinding: FragmentLocationPasswordsBinding
@@ -32,9 +40,13 @@ class LocationPasswordsFragment : BaseFragment<LocationPasswordsViewModel>(),
     @Inject
     lateinit var adapter: LocationPasswordsAdapter
 
+    private var addLocationPasswordFragment: AddLocationPasswordFragment? = null
+    private var editLocationPasswordFragment: EditLocationPasswordFragment? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         locationPasswordsViewModel = injectViewModel(viewModelFactory)
+        locationPasswordsViewModel.fetchData()
     }
 
     override fun onCreateView(
@@ -69,12 +81,6 @@ class LocationPasswordsFragment : BaseFragment<LocationPasswordsViewModel>(),
     }
 
     override fun bindObservers() {
-        locationPasswordsViewModel.fetchData()
-        userViewModel.user.observe(this, Observer {
-            if (it == null) {
-                findNavController().navigate(R.id.signInFragment)
-            }
-        })
         locationPasswordsViewModel.locationPasswords.observe(this, Observer {
             dataBinding.srl.isRefreshing = false
             adapter.locationPasswords = it ?: return@Observer
@@ -86,15 +92,47 @@ class LocationPasswordsFragment : BaseFragment<LocationPasswordsViewModel>(),
         })
         locationPasswordsViewModel.error.observe(this, Observer {
             dataBinding.srl.isRefreshing = false
-            if (!it.isNullOrBlank()) {
-//                displayErrorToast(message = it)
+            /*if (!it.isNullOrBlank()) {
+                displayErrorToast(message = it)
+            }*/
+        })
+        locationPasswordsViewModel.action.observe(this, Observer {
+            it ?: return@Observer
+            if (it is ShowAddLocationPasswordAction) {
+                if (addLocationPasswordFragment == null) {
+                    addLocationPasswordFragment =
+                        AddLocationPasswordFragment(viewModelFactory, locationPasswordsViewModel)
+                    addLocationPasswordFragment!!.show(
+                        parentFragmentManager,
+                        "addBottomSheetDialogFragment"
+                    )
+                }
+            }
+            if (it is CloseAddLocationPasswordAction) {
+                addLocationPasswordFragment = null
+            }
+            if (it is ShowEditLocationPasswordAction) {
+                if (editLocationPasswordFragment == null) {
+                    editLocationPasswordFragment =
+                        EditLocationPasswordFragment(
+                            viewModelFactory = viewModelFactory,
+                            locationPasswordsViewModel = locationPasswordsViewModel,
+                            password = it.password,
+                            position = it.position
+                        )
+                    editLocationPasswordFragment!!.show(
+                        parentFragmentManager,
+                        "editBottomSheetDialogFragment"
+                    )
+                }
+            }
+            if (it is CloseEditLocationPasswordAction) {
+                editLocationPasswordFragment = null
             }
         })
-        locationPasswordsViewModel.userError.observe(this, Observer {
-            dataBinding.srl.isRefreshing = false
-            if (it) {
-                // TODO: logout user and navigate back to sign in
-//                activity.toSignIn()
+        userViewModel.user.observe(this, Observer {
+            if (it == null) {
+                findNavController().navigate(R.id.signInFragment)
             }
         })
     }

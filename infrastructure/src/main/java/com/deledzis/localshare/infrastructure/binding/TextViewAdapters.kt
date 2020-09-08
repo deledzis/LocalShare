@@ -6,6 +6,7 @@ import android.text.Html.FROM_HTML_MODE_LEGACY
 import android.text.method.LinkMovementMethod
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import com.deledzis.localshare.infrastructure.extensions.formatTime
 import com.deledzis.localshare.infrastructure.util.date.DateUtils
 import com.deledzis.localshare.infrastructure.util.images.Base64ImageGetter
 import com.deledzis.localshare.infrastructure.util.images.GlideImageGetter
@@ -15,13 +16,22 @@ import java.util.*
 fun setHexValueText(view: TextView, value: String?) {
     value?.let {
         if (it.length > 8) {
-            val start = it.substring(0, 2).toUpperCase(Locale.getDefault())
-            val last = it.substring(it.length - 4).toUpperCase(Locale.getDefault())
-            view.text = "0x$start ••• $last"
+            val start = it.substring(0, 4)
+            val last = it.substring(it.length - 4)
+            view.text = "$start ••• $last"
         } else {
             view.text = it.toUpperCase(Locale.getDefault())
         }
     }
+}
+
+@BindingAdapter("date_time")
+fun setHexValueText(view: TextView, value: Long) {
+    val time = Calendar.getInstance().run {
+        timeInMillis = value
+        return@run time
+    }
+    view.text = "Последнее обновление: ${time.formatTime()}"
 }
 
 @BindingAdapter("df_only_day_str")

@@ -7,6 +7,7 @@ import com.deledzis.localshare.presentation.base.BaseViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ReceiveChannel
 import javax.inject.Inject
+import javax.inject.Singleton
 
 class SettingsViewModel @Inject constructor() : BaseViewModel() {
     override val receiveChannel: ReceiveChannel<Response<Entity, Error>>

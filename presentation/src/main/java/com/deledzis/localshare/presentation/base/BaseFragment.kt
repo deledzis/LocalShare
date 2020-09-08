@@ -6,19 +6,19 @@ import android.view.Gravity
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
-import androidx.transition.Slide
+import com.deledzis.localshare.common.util.ToastType
 import com.deledzis.localshare.infrastructure.util.log.Loggable
 import com.deledzis.localshare.presentation.R
-import com.deledzis.localshare.presentation.base.BaseFragment.ToastType.*
 import com.deledzis.localshare.presentation.screens.main.MainActivity
-import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.layout_error_toast.*
 import kotlinx.android.synthetic.main.layout_info_toast.*
 import kotlinx.android.synthetic.main.layout_warning_toast.*
+import timber.log.Timber
 import javax.inject.Inject
 
-abstract class BaseFragment<T : ViewModel> : DaggerFragment(),
+abstract class BaseFragment<T : ViewModel> : Fragment(),
     Loggable {
     protected lateinit var activity: MainActivity
 
@@ -27,26 +27,44 @@ abstract class BaseFragment<T : ViewModel> : DaggerFragment(),
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-
-        exitTransition = Slide(Gravity.END)
-        returnTransition = Slide(Gravity.END)
-        enterTransition = Slide(Gravity.END)
+        Timber.d("onAttach: $this")
 
         activity = context as MainActivity
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Timber.d("onViewCreated: $this")
         bindObservers()
     }
 
     protected open fun bindObservers() {}
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Timber.d("onCreate: $this")
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Timber.d("onStart: $this")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Timber.d("onStop: $this")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Timber.d("onDestroy: $this")
+    }
+
     fun displayInfoToast(
         message: String
     ) {
         displayCustomToast(
-            type = INFO,
+            type = ToastType.INFO,
             message = message,
             duration = Toast.LENGTH_LONG
         )
@@ -56,7 +74,7 @@ abstract class BaseFragment<T : ViewModel> : DaggerFragment(),
         message: String
     ) {
         displayCustomToast(
-            type = WARNING,
+            type = ToastType.WARNING,
             message = message,
             duration = Toast.LENGTH_LONG
         )
@@ -66,7 +84,7 @@ abstract class BaseFragment<T : ViewModel> : DaggerFragment(),
         message: String
     ) {
         displayCustomToast(
-            type = ERROR,
+            type = ToastType.ERROR,
             message = message,
             duration = Toast.LENGTH_LONG
         )
@@ -78,9 +96,9 @@ abstract class BaseFragment<T : ViewModel> : DaggerFragment(),
         duration: Int
     ) {
         val layout = when(type) {
-            INFO -> getInfoToastLayout()
-            WARNING -> getWarningToastLayout()
-            ERROR -> getErrorToastLayout()
+            ToastType.INFO -> getInfoToastLayout()
+            ToastType.WARNING -> getWarningToastLayout()
+            ToastType.ERROR -> getErrorToastLayout()
         }
 
         val text: TextView = layout.findViewById(R.id.text)
@@ -112,11 +130,5 @@ abstract class BaseFragment<T : ViewModel> : DaggerFragment(),
             R.layout.layout_error_toast,
             custom_error_toast_container
         )
-    }
-
-    enum class ToastType {
-        INFO,
-        WARNING,
-        ERROR
     }
 }

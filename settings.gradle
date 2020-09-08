@@ -6,4 +6,4 @@ include ':domain'
 include ':data'
 include ':remote'
 include ':app'
-rootProject.name = "LocalShareUIPractice"
+rootProject.name = "LocalShare"

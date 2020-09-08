@@ -2,7 +2,7 @@ package com.deledzis.localshare.domain.repository
 
 import com.deledzis.localshare.common.usecase.Error
 import com.deledzis.localshare.common.usecase.Response
-import com.deledzis.localshare.domain.model.entity.auth.*
+import com.deledzis.localshare.domain.model.response.auth.*
 
 interface AuthRepository {
 

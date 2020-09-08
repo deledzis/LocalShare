@@ -6,7 +6,7 @@ import com.deledzis.localshare.common.usecase.Response
 import com.deledzis.localshare.data.mapper.AuthMapper
 import com.deledzis.localshare.data.mapper.UserMapper
 import com.deledzis.localshare.data.source.auth.AuthDataStoreFactory
-import com.deledzis.localshare.domain.model.entity.auth.*
+import com.deledzis.localshare.domain.model.response.auth.*
 import com.deledzis.localshare.domain.repository.AuthRepository
 import com.deledzis.localshare.domain.repository.LocationPasswordsRepository
 import javax.inject.Inject

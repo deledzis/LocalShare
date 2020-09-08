@@ -4,8 +4,8 @@ import androidx.lifecycle.MutableLiveData
 import com.deledzis.localshare.common.usecase.Error
 import com.deledzis.localshare.common.usecase.Response
 import com.deledzis.localshare.domain.model.entity.Entity
-import com.deledzis.localshare.domain.model.entity.auth.ForgetPasswordResponse
-import com.deledzis.localshare.domain.model.request.ForgetPasswordRequest
+import com.deledzis.localshare.domain.model.response.auth.ForgetPasswordResponse
+import com.deledzis.localshare.domain.model.request.auth.ForgetPasswordRequest
 import com.deledzis.localshare.domain.usecase.auth.ForgetPasswordUseCase
 import com.deledzis.localshare.presentation.base.BaseViewModel
 import kotlinx.coroutines.channels.ReceiveChannel

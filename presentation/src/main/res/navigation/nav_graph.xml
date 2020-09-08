@@ -13,12 +13,13 @@
             android:id="@+id/action_signInFragment_to_registerFragment"
             app:destination="@id/registerFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:popUpTo="@id/signInFragment" />
+            app:popExitAnim="@anim/slide_out_right" />
 
         <action
             android:id="@+id/action_signInFragment_to_forgetPasswordFragment"
             app:destination="@id/forgetPasswordFragment"
-            app:enterAnim="@anim/slide_in_right" />
+            app:enterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_right"  />
 
     </fragment>
 
@@ -35,22 +36,22 @@
     <fragment
         android:id="@+id/locationPasswordsFragment"
         android:name="com.deledzis.localshare.presentation.screens.locationpasswords.LocationPasswordsFragment"
-        android:label="LocationPasswordsFragment">
-
-        <action
-            android:id="@+id/action_locationPasswordsFragment_to_trackPasswordsFragment"
-            app:destination="@id/trackPasswordsFragment" />
-
-    </fragment>
+        android:label="LocationPasswordsFragment" />
 
     <fragment
-        android:id="@+id/trackPasswordsFragment"
-        android:name="com.deledzis.localshare.presentation.screens.trackpasswords.TrackPasswordsFragment"
-        android:label="TrackPasswordsFragment">
+        android:id="@+id/trackingPasswordsFragment"
+        android:name="com.deledzis.localshare.presentation.screens.trackingpasswords.TrackingPasswordsFragment"
+        android:label="TrackingPasswordsFragment">
 
         <action
-            android:id="@+id/action_trackPasswordsFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
+            android:id="@+id/action_trackingPasswordsFragment_to_trackingPasswordFragment"
+            app:destination="@id/trackingPasswordFragment">
+
+            <argument
+                android:name="password"
+                app:argType="com.deledzis.localshare.domain.model.TrackingPassword" />
+
+        </action>
 
     </fragment>
 
@@ -58,5 +59,15 @@
         android:id="@+id/settingsFragment"
         android:name="com.deledzis.localshare.presentation.screens.settings.SettingsFragment"
         android:label="SettingsFragment" />
+
+    <fragment
+        android:id="@+id/trackingPasswordFragment"
+        android:name="com.deledzis.localshare.presentation.screens.trackingpassword.TrackingPasswordFragment">
+
+        <argument
+            android:name="password"
+            app:argType="com.deledzis.localshare.domain.model.TrackingPassword" />
+
+    </fragment>
 
 </navigation>

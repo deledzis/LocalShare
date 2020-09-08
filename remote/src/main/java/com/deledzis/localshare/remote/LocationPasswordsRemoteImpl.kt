@@ -1,7 +1,7 @@
 package com.deledzis.localshare.remote
 
 import com.deledzis.localshare.data.model.LocationPasswordEntity
-import com.deledzis.localshare.data.repository.locationpassword.LocationPasswordsRemote
+import com.deledzis.localshare.data.repository.locationpasswords.LocationPasswordsRemote
 import com.deledzis.localshare.remote.model.AddLocationPasswordRequest
 import com.deledzis.localshare.remote.model.DeleteLocationPasswordRequest
 import com.deledzis.localshare.remote.model.UpdateLocationPasswordRequest
@@ -41,7 +41,6 @@ class LocationPasswordsRemoteImpl @Inject constructor(
     override suspend fun updateLocationPassword(locationPasswordEntity: LocationPasswordEntity): Boolean {
         return apiService.updateLocationPassword(
             request = UpdateLocationPasswordRequest(
-                password = locationPasswordEntity.password,
                 description = locationPasswordEntity.description
             )
         )

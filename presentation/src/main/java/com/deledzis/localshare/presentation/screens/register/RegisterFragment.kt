@@ -13,11 +13,13 @@ import androidx.navigation.fragment.findNavController
 import com.deledzis.localshare.infrastructure.extensions.injectViewModel
 import com.deledzis.localshare.presentation.R
 import com.deledzis.localshare.presentation.base.BaseFragment
-import com.deledzis.localshare.presentation.base.UserViewModel
 import com.deledzis.localshare.presentation.databinding.FragmentRegisterBinding
+import com.deledzis.localshare.presentation.screens.main.UserViewModel
+import timber.log.Timber
 import javax.inject.Inject
 
-class RegisterFragment @Inject constructor() : BaseFragment<RegisterViewModel>(), IRegisterActionsHandler {
+class RegisterFragment @Inject constructor() : BaseFragment<RegisterViewModel>(),
+    IRegisterActionsHandler {
 
     private lateinit var dataBinding: FragmentRegisterBinding
 
@@ -62,19 +64,18 @@ class RegisterFragment @Inject constructor() : BaseFragment<RegisterViewModel>()
 
     override fun bindObservers() {
         registerViewModel.user.observe(this, Observer {
-            userViewModel.saveUser(it)
-        })
-        userViewModel.user.observe(this, Observer {
             if (it != null) {
-                displayWarningToast(
-                    message = "Добро пожаловать! Вы вошли как ${it.email}"
-                )
-                findNavController().popBackStack()
+                userViewModel.saveUser(it)
             }
         })
         registerViewModel.error.observe(this, Observer {
             if (!it.isNullOrBlank()) {
 //                displayErrorToast(message = it)
+            }
+        })
+        userViewModel.user.observe(this, Observer {
+            if (it != null) {
+                findNavController().popBackStack()
             }
         })
     }

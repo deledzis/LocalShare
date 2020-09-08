@@ -5,7 +5,7 @@ import com.deledzis.localshare.cache.db.dao.LocationPasswordsDao
 import com.deledzis.localshare.cache.db.mapper.LocationPasswordEntityMapper
 import com.deledzis.localshare.cache.preferences.locationpasswordscache.LocationPasswordsLastCacheTime
 import com.deledzis.localshare.data.model.LocationPasswordEntity
-import com.deledzis.localshare.data.repository.locationpassword.LocationPasswordsCache
+import com.deledzis.localshare.data.repository.locationpasswords.LocationPasswordsCache
 import javax.inject.Inject
 
 /**

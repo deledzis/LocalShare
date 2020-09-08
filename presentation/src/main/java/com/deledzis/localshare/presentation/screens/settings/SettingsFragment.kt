@@ -7,16 +7,18 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.deledzis.localshare.infrastructure.extensions.injectViewModel
 import com.deledzis.localshare.presentation.R
 import com.deledzis.localshare.presentation.base.BaseFragment
-import com.deledzis.localshare.presentation.base.UserViewModel
 import com.deledzis.localshare.presentation.databinding.FragmentSettingsBinding
+import com.deledzis.localshare.presentation.screens.main.UserViewModel
+import timber.log.Timber
 import javax.inject.Inject
+import javax.inject.Singleton
 
-class SettingsFragment : BaseFragment<SettingsViewModel>(), ISettingsActionsHandler {
+@Singleton
+class SettingsFragment @Inject constructor(): BaseFragment<SettingsViewModel>(), ISettingsActionsHandler {
 
     private lateinit var dataBinding: FragmentSettingsBinding
 
@@ -60,6 +62,5 @@ class SettingsFragment : BaseFragment<SettingsViewModel>(), ISettingsActionsHand
 
     override fun handleLogoutClicked(view: View) {
         userViewModel.saveUser(null)
-        view.findNavController().navigate(R.id.signInFragment)
     }
 }

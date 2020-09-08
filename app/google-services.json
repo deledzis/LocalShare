@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "880503201924-t9e2qi1jfl0p4phgcglbsts8t6adktlq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.deledzis.localshare",
+            "certificate_hash": "6baf4d3427356a42eea0f0b6d1416435a62cdfb0"
+          }
+        },
+        {
           "client_id": "880503201924-8g4sdlacrq6fem8ptssqll088f0s578n.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

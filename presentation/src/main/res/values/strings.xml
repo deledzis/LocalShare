@@ -8,17 +8,25 @@
     <string name="header_register">Регистрация</string>
     <string name="header_forget_password">Забыли пароль?</string>
     <string name="header_my_passwords">Мои пароли</string>
-    <string name="header_track_passwords">Отслеживаемые пароли</string>
+    <string name="header_tracking_passwords">Отслеживаемые пароли</string>
     <string name="header_settings">Настройки</string>
+    <string name="header_add_location_password">Создать пароль</string>
+    <string name="header_edit_location_password">Управление</string>
+    <string name="header_add_tracking_password">Добавить пароль</string>
+    <string name="header_edit_tracking_password">Управление</string>
 
     <!-- Buttons -->
     <string name="btn_sign_in">Войти</string>
     <string name="btn_register">Зарегистрироваться</string>
     <string name="btn_forget_password">Забыли пароль?</string>
     <string name="btn_add_password">Создать пароль</string>
-    <string name="btn_add_track_password">Добавить пароль</string>
+    <string name="btn_add_tracking_password">Добавить пароль</string>
     <string name="btn_restore_password">Восстановить пароль</string>
     <string name="btn_logout">Выйти из аккаунта</string>
+    <string name="btn_create">Создать</string>
+    <string name="btn_add">Добавить</string>
+    <string name="btn_update">Обновить</string>
+    <string name="btn_delete_password">Удалить пароль</string>
 
     <!-- Placeholders -->
     <string name="pl_empty_passwords">Вы пока не создали ни одного пароля</string>
@@ -26,6 +34,8 @@
     <!-- Labels -->
     <string name="label_name">Имя</string>
     <string name="label_password">Пароль</string>
+    <string name="label_description">Описание</string>
+    <string name="label_tracking_active">Передача локации</string>
     <string name="empty_location_passwords">Вы пока не создали ни одного пароля</string>
-    <string name="empty_track_passwords">Вы пока не добавили ни одного пароля в отслеживаемые</string>
+    <string name="empty_tracking_passwords">Вы пока не добавили ни одного пароля в отслеживаемые</string>
 </resources>

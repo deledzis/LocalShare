@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.os.Build
+import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
@@ -36,3 +37,6 @@ fun Context.colorStateListFrom(@ColorRes colorId: Int): ColorStateList {
 }
 
 fun Context.toast(message: CharSequence) = Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+
+val Context.layoutInflater: LayoutInflater
+    get() = LayoutInflater.from(this)
